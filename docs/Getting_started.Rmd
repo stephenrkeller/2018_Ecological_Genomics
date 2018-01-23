@@ -49,9 +49,11 @@ dat<-fread("https://raw.githubusercontent.com/stephenrkeller/2018_Ecological_Gen
 knitr::kable(dat)
 ```
 
+
 4. Useful cheatsheets for (R)markdown editing
 
   * [Simple md cheatsheet](https://beegit.com/markdown-cheat-sheet)
   * [Detailed Rmd cheatsheet for RStudio](http://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
 
 [Back to main page](https://stephenrkeller.github.io/2018_Ecological_Genomics/)
