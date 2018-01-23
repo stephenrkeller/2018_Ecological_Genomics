@@ -12,7 +12,3 @@ fontsize: 20pt
 2. [Class member page](Class_members.html)
 3. [Tutorials and scripts](Tutorials.html)     
 
-```{bash}
-ls -l
-```
-
