@@ -73,30 +73,29 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <ul>
 <li><p>The log-in screen tells us some basic info on when we last logged in, and then gives us our current location in the filesystem (~) followed by the $ prompt, that tells us the computer is ready for our next command.</p></li>
 <li><p>NOTE: The tilda (~) is short-hand for your home directory in UNIX. This is your own personal little corner of the computer’s hard drive space, and is the location that you should use to create folders and input/output/results files that are specific to your own work. No one has access to any files stored in your home directory but you.</p></li>
-<li><p>To see the full path to your current directory, use the <strong>pwd</strong> command:</p></li>
+<li><p>To see the full path to your current directory, use the <code>pwd</code> command:</p></li>
 </ul>
 <pre class="sourceCode bash"><code class="sourceCode bash">  [<span class="kw">srkeller@pbio381</span> ~]$ pwd
   <span class="kw">/users/s/r/srkeller</span>
   [<span class="kw">srkeller@pbio381</span> ~]$ </code></pre>
 <ul>
-<li><p>The path shows the full directory address up from the “root” of the file structure, which is the most basal level (appealing to all you phylogeneticists here…). The root is symbolized as “/” and each subdirectory is separated by an additional “/”. So, the full path to my working directory on the server is <em>/users/s/r/srkeller/</em></p></li>
-<li><p>Let’s make a new folder (aka, directory) using the <strong>mkdir</strong> command. Let’s name this folder “myscripts”</p></li>
+<li><p>The path shows the full directory address up from the “root” of the file structure, which is the most basal level (appealing to all you phylogeneticists here…). The root is symbolized as “/” and each subdirectory is separated by an additional “/”. So, the full path to my working directory on the server is <code>/users/s/r/srkeller/</code></p></li>
+<li><p>Let’s make a new folder (aka, directory) using the <code>mkdir</code> command. Let’s name this folder “myscripts”</p></li>
 </ul>
 <pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> ~]$ mkdir myscripts</code></pre>
 <ul>
-<li>We can then use the <strong>ll</strong> command to show the current contents of any folders and files in our current location:</li>
+<li>We can then use the <code>ll</code> command to show the current contents of any folders and files in our current location:</li>
 </ul>
 <pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> ~]$ ll
 <span class="kw">total</span> 0
 <span class="kw">drwxr-xr-x.</span> 6 srkeller users 82 Jan 31 17:21 archive
-<span class="kw">drwxr-xr-x.</span> 2 srkeller users  6 Jan 31 17:21 mydata
-<span class="kw">drwxr-xr-x.</span> 2 srkeller users  6 Jan 31 17:15 myscripts
+<span class="kw">drwxr-xr-x.</span> 2 srkeller users  6 Jan 31 17:21 myscripts
 [<span class="kw">srkeller@pbio381</span> ~]$ </code></pre>
 <ul>
 <li>You’ll notive that I’ve got some extra folders in my output from previous work, whereas you will probably only see the “myscripts” folder you just made.</li>
 <li>NOTE: Each row shows a file or a folder (in this case, these are all folders) diplaying (from right to left) its name, when it was last edited, size, who it belongs to , and who has permission to read (r) write (w) and exectue (x) it. More on permissions later…</li>
-<li>Try making your own folder named “mydata” and then use the <strong>ll</strong> command to list the folders again</li>
-<li>We can change our current location within the directory structure using the <strong>cd</strong> command. Let’s use <strong>cd</strong> to move inside the <em>mydata/</em> directory and <strong>ll</strong> to list its contents:</li>
+<li>Try making two new folders named “mydata” and “myresults”. Then use the <code>ll</code> command to list the folders again</li>
+<li>We can change our current location within the directory structure using the <code>cd</code> command. Let’s use <code>cd</code> to move inside the <code>mydata/</code> directory and <code>ll</code> to list its contents:</li>
 </ul>
 <pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> ~]$ cd mydata/
 [<span class="kw">srkeller@pbio381</span> mydata]$ ll
@@ -104,88 +103,103 @@ code > span.er { color: #ff0000; font-weight: bold; }
 [<span class="kw">srkeller@pbio381</span> mydata]$ </code></pre>
 <ul>
 <li>Hah — nothing in there yet! Let’s go get some data!</li>
-<li>We’ve placed the text file containing some metadata information on the RNA-Seq dataset we will be analyzing for the first half of the semester. We put this under a shared space on the server. The path to this shared space is:
+<li>For the first part of the semester, we’re going to analyze some unpublished RNASeq data on dung beetles. We’ve placed a text file containing some metadata information on the samples that were sequenced under a shared space on the server. The path to this shared space is:
 <ul>
-<li><em>/data/</em> Try using <strong>cd</strong> to navigate over to this location. Then <strong>ll</strong> to show its contents. You should see something like this:</li>
+<li><code>/data</code> Try using <code>cd</code> to navigate over to this location. Then <code>ll</code> to show its contents. You should see something like this:</li>
 </ul></li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">drwxr-xr-x.</span>  5 root root       73 Jan 31 17:35 archive
-<span class="kw">drwxrwxr-x.</span>  2 root pb381adm   40 Nov 30  2015 packages
-<span class="kw">drwxrwxr-x.</span> 33 root pb381adm 4096 Nov 30  2015 popgen
-<span class="kw">drwxrwxr-x.</span>  3 root pb381adm   42 Jan 30 09:08 project_data
-<span class="kw">drwxrwxr-x.</span>  2 root pb381adm    6 Oct  2  2015 scripts
-<span class="kw">drwxr-xr-x.</span> 18 root root     4096 Sep  2  2015 users
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> data]$ ll
+<span class="kw">total</span> 12
+<span class="kw">drwxr-xr-x.</span>  5 root     root       73 Jan 31  2017 archive
+<span class="kw">drwxr-xr-x.</span>  2 srkeller users      49 Jan 23 13:20 external_data
+<span class="kw">drwxrwxr-x.</span>  2 root     pb381adm   40 Nov 30  2015 packages
+<span class="kw">drwxrwxr-x.</span> 48 root     pb381adm 4096 Mar 28  2017 popgen
+<span class="kw">drwxrwxr-x.</span>  4 root     pb381adm   42 Jan 23 16:51 project_data
+<span class="kw">drwxrwxr-x.</span>  2 root     pb381adm 4096 Aug  8 16:53 scripts
+<span class="kw">drwxr-xr-x.</span> 21 root     root     4096 Feb  1  2017 users
 [<span class="kw">srkeller@pbio381</span> data]$ </code></pre>
 <ul>
-<li>Now, <strong>cd</strong> into the folder called “project_data” and <strong>ll</strong>. Do you see this?</li>
+<li>Now, <code>cd</code> into the folder called “project_data” and <code>ll</code>. Do you see this?</li>
 </ul>
 <pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> data]$ cd project_data/
 [<span class="kw">srkeller@pbio381</span> project_data]$ ll
-<span class="kw">total</span> 8
-<span class="kw">drwxr-xr-x.</span> 12 srkeller users 4096 Jan 30 09:06 archive
-<span class="kw">-rw-r--r--.</span>  1 srkeller users 1255 Jan 30 09:08 ssw_samples.txt
+<span class="kw">drwxrwxr-x.</span> 4 root pb381adm   35 Jan 23 16:52 beetles
+<span class="kw">drwxr-xr-x.</span> 8 root pb381adm 4096 Jan 23 13:20 ssw
 [<span class="kw">srkeller@pbio381</span> project_data]$ </code></pre>
 <ul>
-<li>The file called “ssw_samples.txt” is the one with the seastar metadata. We don’t want to open and make changes to this file in the shared space, because we don’t want to have our edits affect the rest of the group. So, let’s first make a copy of this file over to our home directory and put it inside the “mydata” folder. Use the <strong>cp</strong> command, followed by the filename, and the path to your destination (remember the ~ signals your home directory, and each subdirectory is then separated by a /):</li>
+<li><p>The folder ‘beetles’ will hold the data we’ll be working with this semester. Go ahead and cd to <code>beetles</code> and then again into <code>metadata</code>. Doing an <code>ll</code> should then show you a file called “cols_data.txt” which contains all the sample information for the beetles that have been sequenced.</p></li>
+<li><p>We don’t want to open and make changes to this file in the shared space, because we don’t want to have our edits affect the rest of the group. So, let’s first make a copy of this file over to our home directory and put it inside the “mydata” folder. Use the <code>cp</code> command, followed by the filename, and the path to your destination (remember the ~ signals your home directory, and each subdirectory is then separated by a /):</p></li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> project_data]$ cp ssw_samples.txt ~/mydata/</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> project_data]$ cp cols_data.txt ~/mydata/</code></pre>
 <ul>
-<li><strong>cd</strong> back to your <em>~/mydata/</em> directory and look inside. You should see your file…</li>
+<li><code>cd</code> back to your <code>~/mydata/</code> directory and look inside. You should see your file…</li>
 </ul>
 <pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> project_data]$ cd ~/mydata/
 [<span class="kw">srkeller@pbio381</span> mydata]$ ll
 <span class="kw">total</span> 4
-<span class="kw">-rw-r--r--.</span> 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
+<span class="kw">-rwxr-xr-x.</span> 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
 [<span class="kw">srkeller@pbio381</span> mydata]$ </code></pre>
 <ul>
-<li>Let’s take a peek at this file with the <strong>head</strong> command, which prints the first 10 lines to screen.</li>
+<li>Let’s take a peek at this file with the <code>head</code> command, which prints the first 10 lines to screen.</li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ head ssw_samples.txt 
-<span class="kw">Individual</span>  Trajectory  Location    Day3    Day6    Day9    Day12   Day15
-<span class="kw">10</span>  HH  INT 10_5-08_H   10_5-11_H   10_5-14_H   10_5-17_H   10_5-20_H
-<span class="kw">24</span>  HH  INT 24_5-08_H   24_5-11_H   24_5-14_H   24_5-17_H   24_5-20_H
-<span class="kw">27</span>  HH  INT 27_5-08_H   27_5-11_H   27_5-14_H   27_5-17_H   27_5-20_H
-<span class="kw">08</span>  HS  INT 08_5-08_H   08_5-11_S   08_5-14_S   08_5-17_S   08_5-20_S
-<span class="kw">09</span>  HS  INT 09_5-08_H       09_5-14_S   09_5-17_S   09_5-20_S
-<span class="kw">15</span>  HS  INT 15_5-08_H   15_5-11_H   15_5-14_H   15_5-17_S   15_5-20_S
-<span class="kw">19</span>  HS  INT     19_5-11_H   19_5-14_H   19_5-17_H   19_5-20_S
-<span class="kw">20</span>  HS  INT 20_5-08_H   20_5-11_H   20_5-14_H   20_5-17_H   20_5-20_S
-<span class="kw">03</span>  SS  INT 03_5-08_S   03_5-11_S</code></pre>
-<ul>
-<li>The <strong>tail</strong> command provides similar functionality, but prints just the last lines in the file. These features may not seem a big deal right now, but when you’re dealing with files that are 20 Gb compressed, and feature hundreds of millions of lines of data, you and your computer will be happy to have tools to peek inside without having to open the whole file!</li>
-<li>What if we want to extract just the rows of data that correspond to Healthy (HH) individuals? We can use the search tool <strong>grep</strong> to search for a target query. Any line matching our search string will be printed to screen.</li>
-</ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ grep <span class="st">'HH'</span> ssw_samples.txt 
-<span class="kw">10</span>  HH  INT 10_5-08_H   10_5-11_H   10_5-14_H   10_5-17_H   10_5-20_H
-<span class="kw">24</span>  HH  INT 24_5-08_H   24_5-11_H   24_5-14_H   24_5-17_H   24_5-20_H
-<span class="kw">27</span>  HH  INT 27_5-08_H   27_5-11_H   27_5-14_H   27_5-17_H   27_5-20_H
-<span class="kw">31</span>  HH  SUB 31_6-12_H   31_6-15_H   31_6-18_H   31_6-21_H   31_6-24_H
-<span class="kw">32</span>  HH  SUB 32_6-12_H   32_6-15_H   32_6-18_H   32_6-21_H   
-<span class="kw">33</span>  HH  SUB 33_6-12_H   33_6-15_H   33_6-18_H   33_6-21_H   33_6-24_H
-<span class="kw">34</span>  HH  SUB 34_6-12_H   34_6-15_H   34_6-18_H   34_6-21_H   34_6-24_H
-<span class="kw">35</span>  HH  SUB 35_6-12_H   35_6-15_H   35_6-18_H   35_6-21_H   
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ head cols_data.txt 
+<span class="kw">sample_ID</span>  population   devstage    sex
+<span class="kw">IT_AD4_F1_</span>  IT  AD4 F
+<span class="kw">IT_AD4_F2_</span>  IT  AD4 F
+<span class="kw">IT_AD4_F3_</span>  IT  AD4 F
+<span class="kw">IT_AD4_M1_</span>  IT  AD4 M
+<span class="kw">IT_AD4_M2_</span>  IT  AD4 M
+<span class="kw">IT_AD4_M3_</span>  IT  AD4 M
+<span class="kw">IT_ADC_F13</span>  IT  ADC F
+<span class="kw">IT_ADC_F14</span>  IT  ADC F
+<span class="kw">IT_ADC_F15</span>  IT  ADC F
 [<span class="kw">srkeller@pbio381</span> mydata]$</code></pre>
+<ul>
+<li>The <code>tail</code> command provides similar functionality, but prints just the last lines in the file. These features may not seem a big deal right now, but when you’re dealing with files that are 20 Gb compressed, and feature hundreds of millions of lines of data, you and your computer will be happy to have tools to peek inside without having to open the whole file!</li>
+<li>What if we want to extract just the rows of data that correspond to only individuals from the IT population (Italy)? We can use the search tool <code>grep</code> to search for a target query. Any line matching our search string will be printed to screen.</li>
+</ul>
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ grep <span class="st">'IT'</span> cols_data.txt 
+<span class="kw">IT_AD4_F1_</span>  IT  AD4 F
+<span class="kw">IT_AD4_F2_</span>  IT  AD4 F
+<span class="kw">IT_AD4_F3_</span>  IT  AD4 F
+<span class="kw">IT_AD4_M1_</span>  IT  AD4 M
+<span class="kw">IT_AD4_M2_</span>  IT  AD4 M
+<span class="kw">IT_AD4_M3_</span>  IT  AD4 M
+<span class="kw">IT_ADC_F13</span>  IT  ADC F
+<span class="kw">IT_ADC_F14</span>  IT  ADC F
+<span class="kw">IT_ADC_F15</span>  IT  ADC F
+<span class="kw">IT_ADC_F1_</span>  IT  ADC F
+<span class="kw">IT_ADC_F2_</span>  IT  ADC F
+<span class="kw">IT_ADC_F3_</span>  IT  ADC F
+<span class="kw">IT_ADC_F4_</span>  IT  ADC F
+<span class="kw">IT_ADC_F5_</span>  IT  ADC F
+<span class="kw">IT_ADC_F6_</span>  IT  ADC F
+<span class="kw">IT_ADC_M10</span>  IT  ADC M
+<span class="kw">IT_ADC_M11</span>  IT  ADC M
+<span class="kw">IT_ADC_M12</span>  IT  ADC M
+<span class="kw">IT_ADC_M16</span>  IT  ADC M
+<span class="kw">IT_ADC_M17</span>  IT  ADC M
+<span class="kw">IT_ADC_M18</span>  IT  ADC M
+<span class="kw">IT_ADC_M7_</span>  IT  ADC M
+<span class="kw">IT_ADC_M8_</span>  IT  ADC M
+<span class="kw">IT_ADC_M9_</span>  IT  ADC M
+[<span class="kw">srkeller@pbio381</span> mydata]$ </code></pre>
 <ul>
 <li>What if instead of printing it to screen, we want to save the output of our search to a new file? This is easy, just use the “&gt;” symbol to redirect the results of any command to an output file with your choice of name.</li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ grep <span class="st">'HH'</span> ssw_samples.txt <span class="kw">&gt;</span>ssw_HHonly.txt
-[<span class="kw">srkeller@pbio381</span> mydata]$ ll
-<span class="kw">total</span> 8
-<span class="kw">-rw-r--r--.</span> 1 srkeller users  462 Jan 31 20:46 ssw_HHonly.txt
-<span class="kw">-rwxrwxr-x.</span> 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-[<span class="kw">srkeller@pbio381</span> mydata]$ </code></pre>
+<p><code>bash [srkeller@pbio381 mydata]$ grep 'IT' cols_data.txt &gt;cols_ITonly.txt [srkeller@pbio381 mydata]$ ll drwxr-xr-x. 3 srkeller users 4096 Jan 23 12:58 centaurea -rwxr-xr-x. 1 srkeller users 1474 Jan 23 17:13 cols_data.txt -rw-r--r--. 1 srkeller users  480 Jan 23 17:18 cols_ITonly.txt [srkeller@pbio381 mydata]$ ll</code></p>
 <ul>
-<li>We can do the same routine for the “SS” samples. Here’s a trick, when you’re doing a similar task as a previous command, hit the up arrow on your keyboard at the $ prompt, and it will recall the last command you issued. Then you just have to switch the HH’s for SS’s.</li>
+<li>We can do the same routine for the “NC” samples (North Carolina). Here’s a trick, when you’re doing a similar task as a previous command, hit the up arrow on your keyboard at the $ prompt, and it will recall the last command you issued. Then you just have to switch the IT’s for NC’s.</li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ grep <span class="st">'SS'</span> ssw_samples.txt <span class="kw">&gt;</span>ssw_SSonly.txt
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ grep <span class="st">'NC'</span> cols_data.txt <span class="kw">&gt;</span>cols_NConly.txt
 [<span class="kw">srkeller@pbio381</span> mydata]$ ll
-<span class="kw">total</span> 12
-<span class="kw">-rw-r--r--.</span> 1 srkeller users  462 Jan 31 20:46 ssw_HHonly.txt
-<span class="kw">-rwxrwxr-x.</span> 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-<span class="kw">-rw-r--r--.</span> 1 srkeller users  342 Jan 31 20:48 ssw_SSonly.txt
-[<span class="kw">srkeller@pbio381</span> mydata]$ </code></pre>
+<span class="kw">drwxr-xr-x.</span> 3 srkeller users 4096 Jan 23 12:58 centaurea
+<span class="kw">-rwxr-xr-x.</span> 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
+<span class="kw">-rw-r--r--.</span> 1 srkeller users  480 Jan 23 17:18 cols_ITonly.txt
+<span class="kw">-rw-r--r--.</span> 1 srkeller users  480 Jan 23 17:20 cols_NConly.txt
+[<span class="kw">srkeller@pbio381</span> mydata]$  </code></pre>
 <ul>
-<li><strong>Grep</strong> is a useful search tool and has many additional features for sorting and output of the results. These kinds of search algorithms are called “regular expressions”, or “regexp”, and are one of the most powerful tools for wokring with large text files. If you want to learn more about <strong>grep</strong> and its regexp capabilities, you can look at the <strong>“man”</strong> page or manual. In fact, every UNIX command-line program has a built-in <strong>man</strong> page that you can call up to help you. Just type <strong>man</strong> and then the program name and it will give you the manual (small excerpt shown below).</li>
+<li><code>Grep</code> is a useful search tool and has many additional features for sorting and output of the results. These kinds of search algorithms are called “regular expressions”, or “regexp”, and are one of the most powerful tools for wokring with large text files. If you want to learn more about <code>grep</code> and its regexp capabilities, you can look at the <code>&quot;man&quot;</code> page (shorthand for “manual”). In fact, every UNIX command-line program has a built-in <code>man</code> page that you can call up to help you. Just type <code>man</code> and then the program name and it will give you the manual (small excerpt shown below).</li>
 </ul>
 <pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ man grep
 
@@ -237,53 +251,57 @@ code > span.er { color: #ff0000; font-weight: bold; }
               <span class="kw">and</span> grep -P may warn of unimplemented features.</code></pre>
 <ul>
 <li>One of the most useful aspects of UNIX is the ability to take the output from one command and use it as standard input (termed ‘stdin’) into another command without having to store the intermediate files. Such a workflow is called “piping”, and makes use of the pipe character (|) located above the return key to feed data between programs.</li>
-<li>Example: Say we wanted to know how many samples come from the Intertidal. We can use <strong>grep</strong> to do the search, and pipe the results to the command <strong>wc</strong> which will tally up the number of lines, words, and characters in the file…voila!</li>
+<li>Example: Say we wanted to know how many samples were from female beetles. We can use <code>grep</code> to do the search, and pipe the results to the command <code>wc</code> which will tally up the number of lines, words, and characters in the file…voila!</li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ grep <span class="st">'INT'</span> ssw_samples.txt <span class="kw">|</span> <span class="kw">wc</span>
-     <span class="kw">16</span>     106     762
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ grep <span class="st">'F'</span> cols_data.txt <span class="kw">|</span> <span class="kw">wc</span>
+     <span class="kw">36</span>     144     720
 [<span class="kw">srkeller@pbio381</span> mydata]$ </code></pre>
 <ul>
-<li>Looks like 16 INT samples in the original data. See how quick it was to get a line count on this match, without actully opening a file or printing/saving the outputs?</li>
-<li>Now, what if we want to move the files we created with just individuals of a particular disease status. There’s a way to do this quickly using the wildcard character “<em>“. With the wildcard, the”</em>*” takes the place of any character, and in fact any length of characters. For example, make a new directory called <em>samples_by_disease/</em> inside the <em>mydata/</em> folder. Then move all files that contain the word “only” into the new directory using the <strong>mv</strong> command.</li>
+<li>Looks like 36 female samples in the original data; this is summed across all populations. See how quick it was to get a line count on this match, without actully opening a file or printing/saving the outputs?</li>
+<li>Now, what if we want to move the files we created with just individuals of a particular population. There’s a way to do this quickly using the wildcard character “<em>“. With the wildcard, the”</em>*” takes the place of any character, and in fact any length of characters. For example, make a new directory called <code>samples_by_population/</code> inside the <code>mydata/</code> folder. Then move all files that contain the word “only” into the new directory using the <code>mv</code> command.</li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ mkdir sample_by_disease/
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ mkdir sample_by_population/
+
 [<span class="kw">srkeller@pbio381</span> mydata]$ ll
-<span class="kw">total</span> 12
-<span class="kw">drwxr-xr-x.</span> 2 srkeller users   10 Jan 31 21:12 sample_by_disease
-<span class="kw">-rw-r--r--.</span> 1 srkeller users  462 Jan 31 20:46 ssw_HHonly.txt
-<span class="kw">-rwxrwxr-x.</span> 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-<span class="kw">-rw-r--r--.</span> 1 srkeller users  342 Jan 31 20:48 ssw_SSonly.txt
+<span class="kw">drwxr-xr-x.</span> 3 srkeller users 4096 Jan 23 12:58 centaurea
+<span class="kw">-rwxr-xr-x.</span> 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
+<span class="kw">-rw-r--r--.</span> 1 srkeller users  480 Jan 23 17:18 cols_ITonly.txt
+<span class="kw">-rw-r--r--.</span> 1 srkeller users  480 Jan 23 17:20 cols_NConly.txt
+
 [<span class="kw">srkeller@pbio381</span> mydata]$ mv *only* sample_by_disease/
+
 [<span class="kw">srkeller@pbio381</span> mydata]$ ll
-<span class="kw">total</span> 4
-<span class="kw">drwxr-xr-x.</span> 2 srkeller users   60 Jan 31 21:12 sample_by_disease
-<span class="kw">-rwxrwxr-x.</span> 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-[<span class="kw">srkeller@pbio381</span> mydata]$ cd sample_by_disease/
-[<span class="kw">srkeller@pbio381</span> sample_by_disease]$ ll
+<span class="kw">drwxr-xr-x.</span> 3 srkeller users 4096 Jan 23 12:58 centaurea
+<span class="kw">-rwxr-xr-x.</span> 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
+<span class="kw">drwxr-xr-x.</span> 2 srkeller users   62 Jan 23 17:24 samples_by_population
+
+[<span class="kw">srkeller@pbio381</span> mydata]$ cd samples_by_population/
+
+[<span class="kw">srkeller@pbio381</span> samples_by_population]$ ll
 <span class="kw">total</span> 8
-<span class="kw">-rw-r--r--.</span> 1 srkeller users 462 Jan 31 20:46 ssw_HHonly.txt
-<span class="kw">-rw-r--r--.</span> 1 srkeller users 342 Jan 31 20:48 ssw_SSonly.txt
-[<span class="kw">srkeller@pbio381</span> sample_by_disease]$ </code></pre>
+<span class="kw">-rw-r--r--.</span> 1 srkeller users 480 Jan 23 17:18 cols_ITonly.txt
+<span class="kw">-rw-r--r--.</span> 1 srkeller users 480 Jan 23 17:20 cols_NConly.txt
+[<span class="kw">srkeller@pbio381</span> samples_by_population]$ </code></pre>
 <ul>
-<li>OK, what about when we have files we don’t want anymore? How do we clean up our workspace? You can remove files and folders with the <strong>rm</strong> command. However, in its default mode, UNIX will not ask if you really mean it before getting rid of it forever(!), so this can be dangerous if you’re not paying attention.</li>
-<li>As an example, let’s use our <strong>grep</strong> command to pull out he seastar samples that started healthy and then became sick. But perhaps we later decide we’re not going to work with those samples, so we use <strong>rm</strong> to delete that file:</li>
+<li>OK, what about when we have files we don’t want anymore? How do we clean up our workspace? You can remove files and folders with the <code>rm</code> command. However, in its default mode, UNIX will not ask if you really mean it before getting rid of it forever(!), so this can be dangerous if you’re not paying attention.</li>
+<li>As an example, let’s use our <code>grep</code> command to pull out he seastar samples that started healthy and then became sick. But perhaps we later decide we’re not going to work with those samples, so we use <code>rm</code> to delete that file:</li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> mydata]$ ll
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> samples_by_population]$ ll
 <span class="kw">total</span> 8
-<span class="kw">drwxr-xr-x.</span> 2 srkeller users   60 Jan 31 21:12 sample_by_disease
-<span class="kw">-rw-r--r--.</span> 1 srkeller users  282 Feb  1 05:35 ssw_HSonly.txt
-<span class="kw">-rwxrwxr-x.</span> 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-[<span class="kw">srkeller@pbio381</span> mydata]$ rm ssw_HSonly.txt 
-[<span class="kw">srkeller@pbio381</span> mydata]$ ll
+<span class="kw">-rw-r--r--.</span> 1 srkeller users 480 Jan 23 17:18 cols_ITonly.txt
+<span class="kw">-rw-r--r--.</span> 1 srkeller users 480 Jan 23 17:20 cols_NConly.txt
+[<span class="kw">srkeller@pbio381</span> samples_by_population]$ 
+
+[<span class="kw">srkeller@pbio381</span> mydata]$ rm cols_ITonly.txt 
+[<span class="kw">srkeller@pbio381</span> samples_by_population]$ ll
 <span class="kw">total</span> 4
-<span class="kw">drwxr-xr-x.</span> 2 srkeller users   60 Jan 31 21:12 sample_by_disease
-<span class="kw">-rwxrwxr-x.</span> 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-[<span class="kw">srkeller@pbio381</span> mydata]$</code></pre>
+<span class="kw">-rw-r--r--.</span> 1 srkeller users 480 Jan 23 17:20 cols_NConly.txt
+[<span class="kw">srkeller@pbio381</span> samples_by_population]$ </code></pre>
 <ul>
 <li>Gone! Forever! If that worries you, you can change your personal settings so that the server asks you to confirm deletion before it acts. To do this, we’ll need to follow a couple of new steps:</li>
 </ul>
 <ol style="list-style-type: decimal">
-<li><strong>cd</strong> to your home directory (~/) 2. list all the files, including “hidden” ones that aren’t usually shown. To do this, use <code>ll -a</code>. 3. Look for a file called “.bashrc” — this contains your settings for how you interact with the server when you log in. 4. We’re going to open this file and edit it to add a setting to request that <strong>rm</strong> confirms deletion with us. To edit text files on the fly in UNIX, you can use the built-in text editor, “vim”: <code>vim .bashrc</code> 5. You should see something that looks like this:</li>
+<li><code>cd</code> to your home directory (~/) 2. list all the files, including “hidden” ones that aren’t usually shown. To do this, use <code>ll -a</code>. 3. Look for a file called “.bashrc” — this contains your settings for how you interact with the server when you log in. 4. We’re going to open this file and edit it to add a setting to request that <code>rm</code> confirms deletion with us. To edit text files on the fly in UNIX, you can use the built-in text editor, “vim”: <code>vim .bashrc</code> 5. You should see something that looks like this:</li>
 </ol>
 <pre class="sourceCode bash"><code class="sourceCode bash">  <span class="co"># .bashrc</span>
 
@@ -346,7 +364,7 @@ drwxr-xr-x. 18 root root     4096 Sep  2  2015 users
 <li>Searching within a file for a match: <code>grep 'search string' filename</code></li>
 <li>Outputing the results of a command to a new file: <code>grep 'search string' filename &gt;outputfilename</code></li>
 <li>Using wildcards to work on multiple files at the same time: <code>mv *.txt ~/newfolder</code></li>
-<li>Using the “pipe” to send the output of one command to the input of another: <code>grep 'INT' filename | wc</code></li>
+<li>Using the “pipe” to send the output of one command to the input of another: <code>grep 'F' filename | wc</code></li>
 <li>Removing files or folders: <code>rm</code></li>
 <li>Editing text files on the server: <code>vim filename</code></li>
 </ul>
