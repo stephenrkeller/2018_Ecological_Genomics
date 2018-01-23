@@ -1,0 +1,17 @@
+---
+title: "Tutorials and Scripts"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+fontsize: 18pt
+---
+
+[Back to main page](index.html)
+
+**List of Tutorials** 
+
+1. 2018-01-24:[Command-line UNIX tutorial](docs/tutorials/2018-01-24_Command_Line_Unix.html)
+
+### Troubleshooting   
+
+ 
