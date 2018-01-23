@@ -61,14 +61,13 @@ Last login: Tue Jan 31 10:51:15 2017 from ip040027.uvm.edu
 [srkeller@pbio381 ~]$ ll
 total 0
 drwxr-xr-x. 6 srkeller users 82 Jan 31 17:21 archive
-drwxr-xr-x. 2 srkeller users  6 Jan 31 17:21 mydata
-drwxr-xr-x. 2 srkeller users  6 Jan 31 17:15 myscripts
+drwxr-xr-x. 2 srkeller users  6 Jan 31 17:21 myscripts
 [srkeller@pbio381 ~]$ 
 ```
 
 - You'll notive that I've got some extra folders in my output from previous work, whereas you will probably only see the "myscripts" folder you just made. 
   - NOTE: Each row shows a file or a folder (in this case, these are all folders) diplaying (from right to left) its name, when it was last edited, size, who it belongs to , and who has permission to read (r) write (w) and exectue (x) it. More on permissions later...
-  - Try making your own folder named "mydata" and then use the **ll** command to list the folders again 
+  - Try making two new folders named "mydata" and "myresults". Then use the **ll** command to list the folders again 
 - We can change our current location within the directory structure using the **cd** command. Let's use **cd** to move inside the *mydata/* directory and **ll** to list its contents:
 
 ```bash
@@ -79,16 +78,19 @@ total 0
 ```
 
 - Hah — nothing in there yet! Let's go get some data!
-  - We've placed the text file containing some metadata information on the RNA-Seq dataset we will be analyzing for the first half of the semester. We put this under a shared space on the server. The path to this shared space is: 
-    - */data/*   Try using **cd** to navigate over to this location. Then **ll** to show its contents. You should see something like this:
+  - For the first part of the semester, we're going to analyze some unpublished RNASeq data on dung beetles. We've placed a text file containing some metadata information on the samples that were sequenced under a shared space on the server. The path to this shared space is: 
+    - */data*   Try using **cd** to navigate over to this location. Then **ll** to show its contents. You should see something like this:
 
 ```bash
-drwxr-xr-x.  5 root root       73 Jan 31 17:35 archive
-drwxrwxr-x.  2 root pb381adm   40 Nov 30  2015 packages
-drwxrwxr-x. 33 root pb381adm 4096 Nov 30  2015 popgen
-drwxrwxr-x.  3 root pb381adm   42 Jan 30 09:08 project_data
-drwxrwxr-x.  2 root pb381adm    6 Oct  2  2015 scripts
-drwxr-xr-x. 18 root root     4096 Sep  2  2015 users
+[srkeller@pbio381 data]$ ll
+total 12
+drwxr-xr-x.  5 root     root       73 Jan 31  2017 archive
+drwxr-xr-x.  2 srkeller users      49 Jan 23 13:20 external_data
+drwxrwxr-x.  2 root     pb381adm   40 Nov 30  2015 packages
+drwxrwxr-x. 48 root     pb381adm 4096 Mar 28  2017 popgen
+drwxrwxr-x.  4 root     pb381adm   42 Jan 23 16:51 project_data
+drwxrwxr-x.  2 root     pb381adm 4096 Aug  8 16:53 scripts
+drwxr-xr-x. 21 root     root     4096 Feb  1  2017 users
 [srkeller@pbio381 data]$ 
 ```
 
@@ -97,16 +99,17 @@ drwxr-xr-x. 18 root root     4096 Sep  2  2015 users
 ```bash
 [srkeller@pbio381 data]$ cd project_data/
 [srkeller@pbio381 project_data]$ ll
-total 8
-drwxr-xr-x. 12 srkeller users 4096 Jan 30 09:06 archive
--rw-r--r--.  1 srkeller users 1255 Jan 30 09:08 ssw_samples.txt
+drwxrwxr-x. 4 root pb381adm   35 Jan 23 16:52 beetles
+drwxr-xr-x. 8 root pb381adm 4096 Jan 23 13:20 ssw
 [srkeller@pbio381 project_data]$ 
 ```
 
-- The file called "ssw_samples.txt" is the one with the seastar metadata. We don't want to open and make changes to this file in the shared space, because we don't want to have our edits affect the rest of the group. So, let's first make a copy of this file over to our home directory and put it inside the "mydata" folder. Use the **cp** command, followed by the filename, and the path to your destination (remember the ~ signals your home directory, and each subdirectory is then separated by a /):
+- The folder 'beetles' will hold the data we'll be working with this semester. Go ahead and cd to `beetles` and then again into `metadata`. Doing an `ll` should then show you a file called "cols_data.txt" which contains all the sample information for the beetles that have been sequenced. 
+
+- We don't want to open and make changes to this file in the shared space, because we don't want to have our edits affect the rest of the group. So, let's first make a copy of this file over to our home directory and put it inside the "mydata" folder. Use the **cp** command, followed by the filename, and the path to your destination (remember the ~ signals your home directory, and each subdirectory is then separated by a /):
 
 ```bash
-[srkeller@pbio381 project_data]$ cp ssw_samples.txt ~/mydata/
+[srkeller@pbio381 project_data]$ cp cols_data.txt ~/mydata/
 ```
 
 - **cd** back to your *~/mydata/* directory and look inside. You should see your file...
@@ -115,63 +118,79 @@ drwxr-xr-x. 12 srkeller users 4096 Jan 30 09:06 archive
 [srkeller@pbio381 project_data]$ cd ~/mydata/
 [srkeller@pbio381 mydata]$ ll
 total 4
--rw-r--r--. 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
+-rwxr-xr-x. 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
 [srkeller@pbio381 mydata]$ 
 ```
 
 - Let's take a peek at this file with the **head** command, which prints the first 10 lines to screen.
 
 ```bash
-[srkeller@pbio381 mydata]$ head ssw_samples.txt 
-Individual	Trajectory	Location	Day3	Day6	Day9	Day12	Day15
-10	HH	INT	10_5-08_H	10_5-11_H	10_5-14_H	10_5-17_H	10_5-20_H
-24	HH	INT	24_5-08_H	24_5-11_H	24_5-14_H	24_5-17_H	24_5-20_H
-27	HH	INT	27_5-08_H	27_5-11_H	27_5-14_H	27_5-17_H	27_5-20_H
-08	HS	INT	08_5-08_H	08_5-11_S	08_5-14_S	08_5-17_S	08_5-20_S
-09	HS	INT	09_5-08_H		09_5-14_S	09_5-17_S	09_5-20_S
-15	HS	INT	15_5-08_H	15_5-11_H	15_5-14_H	15_5-17_S	15_5-20_S
-19	HS	INT		19_5-11_H	19_5-14_H	19_5-17_H	19_5-20_S
-20	HS	INT	20_5-08_H	20_5-11_H	20_5-14_H	20_5-17_H	20_5-20_S
-03	SS	INT	03_5-08_S	03_5-11_S
+[srkeller@pbio381 mydata]$ head cols_data.txt 
+sample_ID  population	devstage	sex
+IT_AD4_F1_	IT	AD4	F
+IT_AD4_F2_	IT	AD4	F
+IT_AD4_F3_	IT	AD4	F
+IT_AD4_M1_	IT	AD4	M
+IT_AD4_M2_	IT	AD4	M
+IT_AD4_M3_	IT	AD4	M
+IT_ADC_F13	IT	ADC	F
+IT_ADC_F14	IT	ADC	F
+IT_ADC_F15	IT	ADC	F
+[srkeller@pbio381 mydata]$
 ```
 
 - The **tail** command provides similar functionality, but prints just the last lines in the file. These features may not seem a big deal right now, but when you're dealing with files that are 20 Gb compressed, and feature hundreds of millions of lines of data, you and your computer will be happy to have tools to peek inside without having to open the whole file!
-- What if we want to extract just the rows of data that correspond to Healthy (HH) individuals? We can use the search tool **grep** to search for a target query. Any line matching our search string will be printed to screen.
+- What if we want to extract just the rows of data that correspond to only individuals from the IT population (Italy)? We can use the search tool **grep** to search for a target query. Any line matching our search string will be printed to screen.
 
 ```bash
-[srkeller@pbio381 mydata]$ grep 'HH' ssw_samples.txt 
-10	HH	INT	10_5-08_H	10_5-11_H	10_5-14_H	10_5-17_H	10_5-20_H
-24	HH	INT	24_5-08_H	24_5-11_H	24_5-14_H	24_5-17_H	24_5-20_H
-27	HH	INT	27_5-08_H	27_5-11_H	27_5-14_H	27_5-17_H	27_5-20_H
-31	HH	SUB	31_6-12_H	31_6-15_H	31_6-18_H	31_6-21_H	31_6-24_H
-32	HH	SUB	32_6-12_H	32_6-15_H	32_6-18_H	32_6-21_H	
-33	HH	SUB	33_6-12_H	33_6-15_H	33_6-18_H	33_6-21_H	33_6-24_H
-34	HH	SUB	34_6-12_H	34_6-15_H	34_6-18_H	34_6-21_H	34_6-24_H
-35	HH	SUB	35_6-12_H	35_6-15_H	35_6-18_H	35_6-21_H	
-[srkeller@pbio381 mydata]$
+[srkeller@pbio381 mydata]$ grep 'IT' cols_data.txt 
+IT_AD4_F1_  IT	AD4	F
+IT_AD4_F2_	IT	AD4	F
+IT_AD4_F3_	IT	AD4	F
+IT_AD4_M1_	IT	AD4	M
+IT_AD4_M2_	IT	AD4	M
+IT_AD4_M3_	IT	AD4	M
+IT_ADC_F13	IT	ADC	F
+IT_ADC_F14	IT	ADC	F
+IT_ADC_F15	IT	ADC	F
+IT_ADC_F1_	IT	ADC	F
+IT_ADC_F2_	IT	ADC	F
+IT_ADC_F3_	IT	ADC	F
+IT_ADC_F4_	IT	ADC	F
+IT_ADC_F5_	IT	ADC	F
+IT_ADC_F6_	IT	ADC	F
+IT_ADC_M10	IT	ADC	M
+IT_ADC_M11	IT	ADC	M
+IT_ADC_M12	IT	ADC	M
+IT_ADC_M16	IT	ADC	M
+IT_ADC_M17	IT	ADC	M
+IT_ADC_M18	IT	ADC	M
+IT_ADC_M7_	IT	ADC	M
+IT_ADC_M8_	IT	ADC	M
+IT_ADC_M9_	IT	ADC	M
+[srkeller@pbio381 mydata]$ 
 ```
 
 - What if instead of printing it to screen, we want to save the output of our search to a new file? This is easy, just use the ">" symbol to redirect the results of any command to an output file with your choice of name.
 
 ```bash
-[srkeller@pbio381 mydata]$ grep 'HH' ssw_samples.txt >ssw_HHonly.txt
+[srkeller@pbio381 mydata]$ grep 'IT' cols_data.txt >cols_ITonly.txt
 [srkeller@pbio381 mydata]$ ll
-total 8
--rw-r--r--. 1 srkeller users  462 Jan 31 20:46 ssw_HHonly.txt
--rwxrwxr-x. 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-[srkeller@pbio381 mydata]$ 
-```
+drwxr-xr-x. 3 srkeller users 4096 Jan 23 12:58 centaurea
+-rwxr-xr-x. 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
+-rw-r--r--. 1 srkeller users  480 Jan 23 17:18 cols_ITonly.txt
+[srkeller@pbio381 mydata]$ ll```
 
-- We can do the same routine for the "SS" samples. Here's a trick, when you're doing a similar task as a previous command, hit the up arrow on your keyboard at the $ prompt, and it will recall the last command you issued. Then you just have to switch the HH's for SS's.
+- We can do the same routine for the "NC" samples (North Carolina). Here's a trick, when you're doing a similar task as a previous command, hit the up arrow on your keyboard at the $ prompt, and it will recall the last command you issued. Then you just have to switch the HH's for SS's.
 
 ```bash
-[srkeller@pbio381 mydata]$ grep 'SS' ssw_samples.txt >ssw_SSonly.txt
+[srkeller@pbio381 mydata]$ grep 'NC' cols_data.txt >cols_NConly.txt
 [srkeller@pbio381 mydata]$ ll
-total 12
--rw-r--r--. 1 srkeller users  462 Jan 31 20:46 ssw_HHonly.txt
--rwxrwxr-x. 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
--rw-r--r--. 1 srkeller users  342 Jan 31 20:48 ssw_SSonly.txt
-[srkeller@pbio381 mydata]$ 
+drwxr-xr-x. 3 srkeller users 4096 Jan 23 12:58 centaurea
+-rwxr-xr-x. 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
+-rw-r--r--. 1 srkeller users  480 Jan 23 17:18 cols_ITonly.txt
+-rw-r--r--. 1 srkeller users  480 Jan 23 17:20 cols_NConly.txt
+[srkeller@pbio381 mydata]$  
 ```
 
 - **Grep** is a useful search tool and has many additional features for sorting and output of the results. These kinds of search algorithms are called "regular expressions", or "regexp", and are one of the most powerful tools for wokring with large text files. If you want to learn more about **grep** and its regexp capabilities, you can look at the **"man"** page or manual. In fact, every UNIX command-line program has a built-in **man** page that you can call up to help you. Just type **man** and then the program name and it will give you the manual (small excerpt shown below).
@@ -228,53 +247,57 @@ OPTIONS
 ```
 
 - One of the most useful aspects of UNIX is the ability to take the output from one command and use it as standard input (termed 'stdin') into another command without having to store the intermediate files. Such a workflow is called "piping", and makes use of the pipe character (|) located above the return key to feed data between programs.
-  - Example: Say we wanted to know how many samples come from the Intertidal. We can use **grep** to do the search, and pipe the results to the command **wc** which will tally up the number of lines, words, and characters in the file…voila!
+  - Example: Say we wanted to know how many samples were from female beetles. We can use **grep** to do the search, and pipe the results to the command **wc** which will tally up the number of lines, words, and characters in the file…voila!
 
 ```bash
-[srkeller@pbio381 mydata]$ grep 'INT' ssw_samples.txt | wc
-     16     106     762
+[srkeller@pbio381 mydata]$ grep 'F' cols_data.txt | wc
+     36     144     720
 [srkeller@pbio381 mydata]$ 
 ```
 
-- Looks like 16 INT samples in the original data. See how quick it was to get a line count on this match, without actully opening a file or printing/saving the outputs? 
-- Now, what if we want to move the files we created with just individuals of a particular disease status. There's a way to do this quickly using the wildcard character "*". With the wildcard, the "*\*" takes the place of any character, and in fact any length of characters. For example, make a new directory called *samples_by_disease/* inside the *mydata/* folder. Then move all files that contain the word "only" into the new directory using the **mv** command.
+- Looks like 36 female samples in the original data; this is summed across all populations. See how quick it was to get a line count on this match, without actully opening a file or printing/saving the outputs? 
+- Now, what if we want to move the files we created with just individuals of a particular population. There's a way to do this quickly using the wildcard character "*". With the wildcard, the "*\*" takes the place of any character, and in fact any length of characters. For example, make a new directory called *samples_by_population/* inside the *mydata/* folder. Then move all files that contain the word "only" into the new directory using the **mv** command.
 
 ```bash
-[srkeller@pbio381 mydata]$ mkdir sample_by_disease/
+[srkeller@pbio381 mydata]$ mkdir sample_by_population/
+
 [srkeller@pbio381 mydata]$ ll
-total 12
-drwxr-xr-x. 2 srkeller users   10 Jan 31 21:12 sample_by_disease
--rw-r--r--. 1 srkeller users  462 Jan 31 20:46 ssw_HHonly.txt
--rwxrwxr-x. 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
--rw-r--r--. 1 srkeller users  342 Jan 31 20:48 ssw_SSonly.txt
+drwxr-xr-x. 3 srkeller users 4096 Jan 23 12:58 centaurea
+-rwxr-xr-x. 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
+-rw-r--r--. 1 srkeller users  480 Jan 23 17:18 cols_ITonly.txt
+-rw-r--r--. 1 srkeller users  480 Jan 23 17:20 cols_NConly.txt
+
 [srkeller@pbio381 mydata]$ mv *only* sample_by_disease/
+
 [srkeller@pbio381 mydata]$ ll
-total 4
-drwxr-xr-x. 2 srkeller users   60 Jan 31 21:12 sample_by_disease
--rwxrwxr-x. 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-[srkeller@pbio381 mydata]$ cd sample_by_disease/
-[srkeller@pbio381 sample_by_disease]$ ll
+drwxr-xr-x. 3 srkeller users 4096 Jan 23 12:58 centaurea
+-rwxr-xr-x. 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
+drwxr-xr-x. 2 srkeller users   62 Jan 23 17:24 samples_by_population
+
+[srkeller@pbio381 mydata]$ cd samples_by_population/
+
+[srkeller@pbio381 samples_by_population]$ ll
 total 8
--rw-r--r--. 1 srkeller users 462 Jan 31 20:46 ssw_HHonly.txt
--rw-r--r--. 1 srkeller users 342 Jan 31 20:48 ssw_SSonly.txt
-[srkeller@pbio381 sample_by_disease]$ 
+-rw-r--r--. 1 srkeller users 480 Jan 23 17:18 cols_ITonly.txt
+-rw-r--r--. 1 srkeller users 480 Jan 23 17:20 cols_NConly.txt
+[srkeller@pbio381 samples_by_population]$ 
 ```
 
 - OK, what about when we have files we don't want anymore? How do we clean up our workspace? You can remove files and folders with the **rm** command. However, in its default mode, UNIX will not ask if you really mean it before getting rid of it forever(!), so this can be dangerous if you're not paying attention. 
   - As an example, let's use our **grep** command to pull out he seastar samples that started healthy and then became sick. But perhaps we later decide we're not going to work with those samples, so we use **rm** to delete that file:
 
 ```bash
-[srkeller@pbio381 mydata]$ ll
+[srkeller@pbio381 samples_by_population]$ ll
 total 8
-drwxr-xr-x. 2 srkeller users   60 Jan 31 21:12 sample_by_disease
--rw-r--r--. 1 srkeller users  282 Feb  1 05:35 ssw_HSonly.txt
--rwxrwxr-x. 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-[srkeller@pbio381 mydata]$ rm ssw_HSonly.txt 
-[srkeller@pbio381 mydata]$ ll
+-rw-r--r--. 1 srkeller users 480 Jan 23 17:18 cols_ITonly.txt
+-rw-r--r--. 1 srkeller users 480 Jan 23 17:20 cols_NConly.txt
+[srkeller@pbio381 samples_by_population]$ 
+
+[srkeller@pbio381 mydata]$ rm cols_ITonly.txt 
+[srkeller@pbio381 samples_by_population]$ ll
 total 4
-drwxr-xr-x. 2 srkeller users   60 Jan 31 21:12 sample_by_disease
--rwxrwxr-x. 1 srkeller users 1255 Jan 31 17:42 ssw_samples.txt
-[srkeller@pbio381 mydata]$
+-rw-r--r--. 1 srkeller users 480 Jan 23 17:20 cols_NConly.txt
+[srkeller@pbio381 samples_by_population]$ 
 ```
 - Gone! Forever! If that worries you, you can change your personal settings so that the server asks you to confirm deletion before it acts. To do this, we'll need to follow a couple of new steps:
 
@@ -358,7 +381,7 @@ drwxr-xr-x. 18 root root     4096 Sep  2  2015 users
 - Searching within a file for a match: `grep 'search string' filename`
 - Outputing the results of a command to a new file: `grep 'search string' filename >outputfilename`
 - Using wildcards to work on multiple files at the same time: `mv *.txt ~/newfolder`
--  Using the "pipe" to send the output of one command to the input of another: `grep 'INT' filename | wc `
+- Using the "pipe" to send the output of one command to the input of another: `grep 'F' filename | wc `
 - Removing files or folders: `rm`
 - Editing text files on the server: `vim filename`       
 
