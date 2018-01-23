@@ -10,7 +10,9 @@ fontsize: 18pt
 
 **List of Tutorials** 
 
-1. 2018-01-24:[Command-line UNIX tutorial](docs/2018-01-24_Command_Line_Unix.html)
+1. 2018-01-24:[Command-line UNIX tutorial](2018-01-24_Command_Line_Unix.html)
+
+
 
 ### Troubleshooting   
 
