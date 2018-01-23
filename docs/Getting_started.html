@@ -56,7 +56,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="TOC" class="toc">
 <ul>
 <li><a href="#things-youll-need-to-download">Things you’ll need to download:</a></li>
-<li><a href="#logs-research-activities-in-your-online-notebook-template-found-here.">Logs research activities in your online notebook <a href="https://github.com/stephenrkeller/2018_Ecologial_Genomics/blob/master/Template_online_notebook.Rmd">template found here</a>.</a></li>
+<li><a href="#logs-research-activities-in-your-online-notebook-template-found-here.">Logs research activities in your online notebook <a href="https://github.com/stephenrkeller/2018_Ecological_Genomics/blob/master/Template_online_notebook.Rmd">template found here</a>.</a></li>
 <li><a href="#common-code-youll-need-to-word-process-in-rmarkdown">Common code you’ll need to word process in (R)markdown</a></li>
 </ul>
 </div>
@@ -71,7 +71,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </ol>
 </div>
 <div id="logs-research-activities-in-your-online-notebook-template-found-here." class="section level3">
-<h3>Logs research activities in your online notebook <a href="https://github.com/stephenrkeller/2018_Ecologial_Genomics/blob/master/Template_online_notebook.Rmd">template found here</a>.</h3>
+<h3>Logs research activities in your online notebook <a href="https://github.com/stephenrkeller/2018_Ecological_Genomics/blob/master/Template_online_notebook.Rmd">template found here</a>.</h3>
 </div>
 <div id="common-code-youll-need-to-word-process-in-rmarkdown" class="section level3">
 <h3>Common code you’ll need to word process in (R)markdown</h3>
@@ -90,51 +90,73 @@ To get a URL in (R)markdown:
 </ul></li>
 <li><p>To include a table, it is best if you format it first as a csv(comma separated values). (Note, if on a mac, make sure the file type is unicode and unix). With the knitr package, you can generate tables easily from the csv. Here is an example:</p></li>
 </ol>
-<p>Grab a dataset real fast (in R)</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#packages for reading in data</span>
+<p>Grab an example dataset (in R)</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#package for reading in data</span>
 <span class="kw">library</span>(data.table)
 
-<span class="co">#grab dataset online</span>
-dat&lt;-<span class="kw">fread</span>(<span class="st">&quot;https://github.com/stephenrkeller/2018_Ecologial_Genomics/blob/master/data/Example_data.csv&quot;</span>)</code></pre>
-<pre><code>## Warning in fread(&quot;https://github.com/stephenrkeller/
-## 2018_Ecologial_Genomics/blob/master/data/Example_data.csv&quot;): Stopped
-## reading at empty line 18 but text exists afterwards (discarded): &lt;link
-## crossorigin=&quot;anonymous&quot; href=&quot;https://assets-cdn.github.com/assets/
-## frameworks-98cac35b43fab8341490a2623fdaa7b696bbaea87bccf8f485fd5cdb4996cd9b52bdb24709fb3bab0a0dcff4a29187d65028ee693d609ce5c0c3283c77a247a9.css&quot;
-## media=&quot;all&quot; rel=&quot;stylesheet&quot; /&gt;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#making a table</span>
-knitr::<span class="kw">kable</span>(dat[<span class="dv">1</span>:<span class="dv">4</span>])</code></pre>
+<span class="co">#grab dataset online from Steve's github</span>
+dat&lt;-<span class="kw">fread</span>(<span class="st">&quot;https://raw.githubusercontent.com/stephenrkeller/2018_Ecological_Genomics/master/data/Example_data.csv&quot;</span>)
+
+<span class="co">#making a table</span>
+knitr::<span class="kw">kable</span>(dat)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th align="left">&lt;link</th>
-<th align="left">rel=“dns-prefetch”</th>
-<th align="left">href=“<a href="https://assets-cdn.github.com">https://assets-cdn.github.com</a>”&gt;</th>
+<th align="right">row_num</th>
+<th align="right">plant_num</th>
+<th align="left">PopCode</th>
+<th align="left">IndCode</th>
+<th align="left">RepCode</th>
+<th align="right">Julian_BF</th>
+<th align="right">Julian_leafout</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">&lt;link</td>
-<td align="left">rel=“dns-prefetch”</td>
-<td align="left">href=“<a href="https://avatars0.githubusercontent.com">https://avatars0.githubusercontent.com</a>”&gt;</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">MMT</td>
+<td align="left">MMT_16</td>
+<td align="left">MMT_16_R1</td>
+<td align="right">123</td>
+<td align="right">130</td>
 </tr>
 <tr class="even">
-<td align="left">&lt;link</td>
-<td align="left">rel=“dns-prefetch”</td>
-<td align="left">href=“<a href="https://avatars1.githubusercontent.com">https://avatars1.githubusercontent.com</a>”&gt;</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">FNO</td>
+<td align="left">FNO_08</td>
+<td align="left">FNO_08_R6</td>
+<td align="right">116</td>
+<td align="right">123</td>
 </tr>
 <tr class="odd">
-<td align="left">&lt;link</td>
-<td align="left">rel=“dns-prefetch”</td>
-<td align="left">href=“<a href="https://avatars2.githubusercontent.com">https://avatars2.githubusercontent.com</a>”&gt;</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="left">FIS</td>
+<td align="left">FIS_06</td>
+<td align="left">FIS_06_R1</td>
+<td align="right">123</td>
+<td align="right">132</td>
 </tr>
 <tr class="even">
-<td align="left">&lt;link</td>
-<td align="left">rel=“dns-prefetch”</td>
-<td align="left">href=“<a href="https://avatars3.githubusercontent.com">https://avatars3.githubusercontent.com</a>”&gt;</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">NEG</td>
+<td align="left">NEG_15</td>
+<td align="left">NEG_15_R3</td>
+<td align="right">123</td>
+<td align="right">130</td>
 </tr>
 </tbody>
 </table>
+<ol start="4" style="list-style-type: decimal">
+<li>Useful cheatsheets for (R)markdown editing</li>
+</ol>
+<ul>
+<li><a href="https://beegit.com/markdown-cheat-sheet">Simple md cheatsheet</a></li>
+<li><a href="http://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf">Detailed Rmd cheatsheet for RStudio</a></li>
+</ul>
 <p><a href="https://stephenrkeller.github.io/2018_Ecological_Genomics/">Back to main page</a></p>
 </div>
 </section>
