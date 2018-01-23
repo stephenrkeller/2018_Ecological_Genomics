@@ -12,6 +12,4 @@ fontsize: 18pt
 2. [Tutorials and scripts](Tutorials.html)     
 3. [Class member page](Class_members.html)
 
-### 
 
-### [Rubrics for group project presentations and papers](Tutorial/Rubrics for Group Projects.html)
