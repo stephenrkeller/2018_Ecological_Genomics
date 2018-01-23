@@ -40,21 +40,19 @@ Last login: Tue Jan 31 10:51:15 2017 from ip040027.uvm.edu
 
 - To see the full path to your current directory, use the **pwd** command:
 
-  ```bash
+```bash
   [srkeller@pbio381 ~]$ pwd
   /users/s/r/srkeller
   [srkeller@pbio381 ~]$ 
-  ```
-
-  
+```
 
 - The path shows the full directory address up from the "root" of the file structure, which is the most basal level (appealing to all you phylogeneticists here…). The root is symbolized as "/" and each subdirectory is separated by an additional "/". So, the full path to my working directory on the server is */users/s/r/srkeller/*
 
 
-- Let's make a new folder (aka, directory) using the **mkdir** command. Let's name this folder "mydata"
+- Let's make a new folder (aka, directory) using the **mkdir** command. Let's name this folder "myscripts"
 
 ```bash
-[srkeller@pbio381 ~]$ mkdir mydata
+[srkeller@pbio381 ~]$ mkdir myscripts
 ```
 
 - We can then use the **ll** command to show the current contents of any folders and files in our current location:
@@ -64,13 +62,13 @@ Last login: Tue Jan 31 10:51:15 2017 from ip040027.uvm.edu
 total 0
 drwxr-xr-x. 6 srkeller users 82 Jan 31 17:21 archive
 drwxr-xr-x. 2 srkeller users  6 Jan 31 17:21 mydata
-drwxr-xr-x. 2 srkeller users  6 Jan 31 17:15 scripts
+drwxr-xr-x. 2 srkeller users  6 Jan 31 17:15 myscripts
 [srkeller@pbio381 ~]$ 
 ```
 
-- You'll notive that I've got some extra folders in my output from previous work, whereas you will probably only see the "scripts" folder you just made. 
+- You'll notive that I've got some extra folders in my output from previous work, whereas you will probably only see the "myscripts" folder you just made. 
   - NOTE: Each row shows a file or a folder (in this case, these are all folders) diplaying (from right to left) its name, when it was last edited, size, who it belongs to , and who has permission to read (r) write (w) and exectue (x) it. More on permissions later...
-  - Try making your own folder named "scripts" and then use the **ll** command to list the folders again 
+  - Try making your own folder named "mydata" and then use the **ll** command to list the folders again 
 - We can change our current location within the directory structure using the **cd** command. Let's use **cd** to move inside the *mydata/* directory and **ll** to list its contents:
 
 ```bash
@@ -81,7 +79,7 @@ total 0
 ```
 
 - Hah — nothing in there yet! Let's go get some data!
-  - We've placed the text file containing all the metadata information on the seastar sampling under a shared space on the server. The path to this shared space is: 
+  - We've placed the text file containing some metadata information on the RNA-Seq dataset we will be analyzing for the first half of the semester. We put this under a shared space on the server. The path to this shared space is: 
     - */data/*   Try using **cd** to navigate over to this location. Then **ll** to show its contents. You should see something like this:
 
 ```bash

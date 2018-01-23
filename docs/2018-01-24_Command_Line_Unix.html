@@ -75,13 +75,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><p>NOTE: The tilda (~) is short-hand for your home directory in UNIX. This is your own personal little corner of the computer’s hard drive space, and is the location that you should use to create folders and input/output/results files that are specific to your own work. No one has access to any files stored in your home directory but you.</p></li>
 <li><p>To see the full path to your current directory, use the <strong>pwd</strong> command:</p></li>
 </ul>
-<p><code>bash   [srkeller@pbio381 ~]$ pwd   /users/s/r/srkeller   [srkeller@pbio381 ~]$</code></p>
-<p></p>
+<pre class="sourceCode bash"><code class="sourceCode bash">  [<span class="kw">srkeller@pbio381</span> ~]$ pwd
+  <span class="kw">/users/s/r/srkeller</span>
+  [<span class="kw">srkeller@pbio381</span> ~]$ </code></pre>
 <ul>
 <li><p>The path shows the full directory address up from the “root” of the file structure, which is the most basal level (appealing to all you phylogeneticists here…). The root is symbolized as “/” and each subdirectory is separated by an additional “/”. So, the full path to my working directory on the server is <em>/users/s/r/srkeller/</em></p></li>
-<li><p>Let’s make a new folder (aka, directory) using the <strong>mkdir</strong> command. Let’s name this folder “mydata”</p></li>
+<li><p>Let’s make a new folder (aka, directory) using the <strong>mkdir</strong> command. Let’s name this folder “myscripts”</p></li>
 </ul>
-<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> ~]$ mkdir mydata</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> ~]$ mkdir myscripts</code></pre>
 <ul>
 <li>We can then use the <strong>ll</strong> command to show the current contents of any folders and files in our current location:</li>
 </ul>
@@ -89,12 +90,12 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <span class="kw">total</span> 0
 <span class="kw">drwxr-xr-x.</span> 6 srkeller users 82 Jan 31 17:21 archive
 <span class="kw">drwxr-xr-x.</span> 2 srkeller users  6 Jan 31 17:21 mydata
-<span class="kw">drwxr-xr-x.</span> 2 srkeller users  6 Jan 31 17:15 scripts
+<span class="kw">drwxr-xr-x.</span> 2 srkeller users  6 Jan 31 17:15 myscripts
 [<span class="kw">srkeller@pbio381</span> ~]$ </code></pre>
 <ul>
-<li>You’ll notive that I’ve got some extra folders in my output from previous work, whereas you will probably only see the “scripts” folder you just made.</li>
+<li>You’ll notive that I’ve got some extra folders in my output from previous work, whereas you will probably only see the “myscripts” folder you just made.</li>
 <li>NOTE: Each row shows a file or a folder (in this case, these are all folders) diplaying (from right to left) its name, when it was last edited, size, who it belongs to , and who has permission to read (r) write (w) and exectue (x) it. More on permissions later…</li>
-<li>Try making your own folder named “scripts” and then use the <strong>ll</strong> command to list the folders again</li>
+<li>Try making your own folder named “mydata” and then use the <strong>ll</strong> command to list the folders again</li>
 <li>We can change our current location within the directory structure using the <strong>cd</strong> command. Let’s use <strong>cd</strong> to move inside the <em>mydata/</em> directory and <strong>ll</strong> to list its contents:</li>
 </ul>
 <pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">srkeller@pbio381</span> ~]$ cd mydata/
@@ -103,7 +104,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 [<span class="kw">srkeller@pbio381</span> mydata]$ </code></pre>
 <ul>
 <li>Hah — nothing in there yet! Let’s go get some data!</li>
-<li>We’ve placed the text file containing all the metadata information on the seastar sampling under a shared space on the server. The path to this shared space is:
+<li>We’ve placed the text file containing some metadata information on the RNA-Seq dataset we will be analyzing for the first half of the semester. We put this under a shared space on the server. The path to this shared space is:
 <ul>
 <li><em>/data/</em> Try using <strong>cd</strong> to navigate over to this location. Then <strong>ll</strong> to show its contents. You should see something like this:</li>
 </ul></li>
