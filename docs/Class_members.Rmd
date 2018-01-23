@@ -1,0 +1,20 @@
+---
+title: "Ecological Genomics Class Members"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+fontsize: 18pt
+---
+
+[Back to main page](index.html)
+
+**List of participants and their Github portfolio** 
+
+1. [Suraj Bhattarai]()   
+2. [Paul Cronin]()   
+3. [Jamie Kostyun]()    
+4. [Lucy Rogers]()    
+5. [Morgan Southgate]()    
+6. [Ethan Thibault]()
+
+
