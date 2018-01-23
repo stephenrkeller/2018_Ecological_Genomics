@@ -95,49 +95,43 @@ To get a URL in (R)markdown:
 <span class="kw">library</span>(data.table)
 
 <span class="co">#grab dataset online</span>
-dat&lt;-<span class="kw">fread</span>(<span class="st">&quot;https://raw.githubusercontent.com/adnguyen/HelmsCahan_CBP-partA_2016/master/Script_Analyses/Sampling_sites_table.csv&quot;</span>)
-
-<span class="co">#making a table</span>
-knitr::<span class="kw">kable</span>(dat[<span class="dv">1</span>:<span class="dv">3</span>])</code></pre>
+dat&lt;-<span class="kw">fread</span>(<span class="st">&quot;https://github.com/stephenrkeller/2018_Ecologial_Genomics/blob/master/data/Example_data.csv&quot;</span>)</code></pre>
+<pre><code>## Warning in fread(&quot;https://github.com/stephenrkeller/
+## 2018_Ecologial_Genomics/blob/master/data/Example_data.csv&quot;): Stopped
+## reading at empty line 18 but text exists afterwards (discarded): &lt;link
+## crossorigin=&quot;anonymous&quot; href=&quot;https://assets-cdn.github.com/assets/
+## frameworks-98cac35b43fab8341490a2623fdaa7b696bbaea87bccf8f485fd5cdb4996cd9b52bdb24709fb3bab0a0dcff4a29187d65028ee693d609ce5c0c3283c77a247a9.css&quot;
+## media=&quot;all&quot; rel=&quot;stylesheet&quot; /&gt;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#making a table</span>
+knitr::<span class="kw">kable</span>(dat[<span class="dv">1</span>:<span class="dv">4</span>])</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th align="right">n</th>
-<th align="left">Locale</th>
-<th align="left">State</th>
-<th align="left">Site ID</th>
-<th align="right">Longitude</th>
-<th align="right">Latitude</th>
-<th align="right">Tmax</th>
+<th align="left">&lt;link</th>
+<th align="left">rel=“dns-prefetch”</th>
+<th align="left">href=“<a href="https://assets-cdn.github.com">https://assets-cdn.github.com</a>”&gt;</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
-<td align="left">Notchview</td>
-<td align="left">MA</td>
-<td align="left">NO</td>
-<td align="right">-73.01277</td>
-<td align="right">42.49833</td>
-<td align="right">24.8</td>
+<td align="left">&lt;link</td>
+<td align="left">rel=“dns-prefetch”</td>
+<td align="left">href=“<a href="https://avatars0.githubusercontent.com">https://avatars0.githubusercontent.com</a>”&gt;</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="left">Smokey Mountains</td>
-<td align="left">TN</td>
-<td align="left">GP</td>
-<td align="right">-83.49340</td>
-<td align="right">35.63650</td>
-<td align="right">25.0</td>
+<td align="left">&lt;link</td>
+<td align="left">rel=“dns-prefetch”</td>
+<td align="left">href=“<a href="https://avatars1.githubusercontent.com">https://avatars1.githubusercontent.com</a>”&gt;</td>
 </tr>
 <tr class="odd">
-<td align="right">3</td>
-<td align="left">Molly Bog</td>
-<td align="left">VT</td>
-<td align="left">MB</td>
-<td align="right">-72.64000</td>
-<td align="right">44.50000</td>
-<td align="right">25.3</td>
+<td align="left">&lt;link</td>
+<td align="left">rel=“dns-prefetch”</td>
+<td align="left">href=“<a href="https://avatars2.githubusercontent.com">https://avatars2.githubusercontent.com</a>”&gt;</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;link</td>
+<td align="left">rel=“dns-prefetch”</td>
+<td align="left">href=“<a href="https://avatars3.githubusercontent.com">https://avatars3.githubusercontent.com</a>”&gt;</td>
 </tr>
 </tbody>
 </table>
