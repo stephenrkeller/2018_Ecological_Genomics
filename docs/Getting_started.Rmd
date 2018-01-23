@@ -7,14 +7,14 @@ output:
 fontsize: 18pt
 ---
 
-[Back to main page](https://adnguyen.github.io/2017_Ecological_Genomics/)
+[Back to main page](https://stephenrkeller.github.io/2018_Ecological_Genomics/)
 
 ### Things you'll need to download:
 1. [R](https://www.r-project.org/) and [Rstudio](https://www.rstudio.com/) (be sure to install and load the "knitr"" package)
 2. Create a [github](https://github.com/) account and download github [desktop](https://desktop.github.com/)
 
 
-### Logs research activities in your online notebook [template found here](https://github.com/adnguyen/Notebooks_and_Protocols/blob/master/Eco_genom_Online_notebook.md).   
+### Logs research activities in your online notebook [template found here](https://github.com/stephenrkeller/2018_Ecologial_Genomics/blob/master/Template_online_notebook.Rmd).   
 
 ### Common code you'll need to word process in (R)markdown  
 
@@ -51,7 +51,4 @@ knitr::kable(dat[1:3])
 
 
 
-### For a good option to use markdown for taking notes, try [Typora](https://typora.io/)
-
-
-[Back to main page](https://adnguyen.github.io/2017_Ecological_Genomics/)
+[Back to main page](https://stephenrkeller.github.io/2018_Ecological_Genomics/)
