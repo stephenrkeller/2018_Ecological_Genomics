@@ -179,7 +179,8 @@ IT_ADC_M9_	IT	ADC	M
 drwxr-xr-x. 3 srkeller users 4096 Jan 23 12:58 centaurea
 -rwxr-xr-x. 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
 -rw-r--r--. 1 srkeller users  480 Jan 23 17:18 cols_ITonly.txt
-[srkeller@pbio381 mydata]$ ll```
+[srkeller@pbio381 mydata]$ ll
+```
 
 - We can do the same routine for the "NC" samples (North Carolina). Here's a trick, when you're doing a similar task as a previous command, hit the up arrow on your keyboard at the $ prompt, and it will recall the last command you issued. Then you just have to switch the IT's for NC's.
 
@@ -266,6 +267,7 @@ drwxr-xr-x. 3 srkeller users 4096 Jan 23 12:58 centaurea
 -rwxr-xr-x. 1 srkeller users 1474 Jan 23 17:13 cols_data.txt
 -rw-r--r--. 1 srkeller users  480 Jan 23 17:18 cols_ITonly.txt
 -rw-r--r--. 1 srkeller users  480 Jan 23 17:20 cols_NConly.txt
+drwxr-xr-x. 2 srkeller users   62 Jan 23 17:24 samples_by_population
 
 [srkeller@pbio381 mydata]$ mv *only* sample_by_disease/
 
@@ -284,7 +286,7 @@ total 8
 ```
 
 - OK, what about when we have files we don't want anymore? How do we clean up our workspace? You can remove files and folders with the `rm` command. However, in its default mode, UNIX will not ask if you really mean it before getting rid of it forever(!), so this can be dangerous if you're not paying attention. 
-  - As an example, let's use our `grep` command to pull out he seastar samples that started healthy and then became sick. But perhaps we later decide we're not going to work with those samples, so we use `rm` to delete that file:
+  - As an example, let's use our `grep` command to pull out the 'IT' samples that belong to the Italy population. But perhaps we later decide we're not going to work with those samples, so we use `rm` to delete that file:
 
 ```bash
 [srkeller@pbio381 samples_by_population]$ ll
