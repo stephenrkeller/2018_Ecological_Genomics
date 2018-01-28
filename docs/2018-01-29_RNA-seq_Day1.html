@@ -99,18 +99,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="the-pipeline" class="section level2">
 <h2>2. The “pipeline”</h2>
 <ol style="list-style-type: decimal">
-<li><ol style="list-style-type: lower-alpha">
-<li>Visualize the quality of raw data (Program: FastQC)</li>
-</ol></li>
+<li>​ a. Visualize the quality of raw data (Program: FastQC)</li>
 </ol>
-<ol start="2" style="list-style-type: lower-alpha">
-<li><p>Clean raw data (Program: Trimmomatic)</p></li>
-<li><p>Visualize the quality of cleaned data (Program: FastQC)</p></li>
-</ol>
+<p>​ b. Clean raw data (Program: Trimmomatic)</p>
+<p>​ c. Visualize the quality of cleaned data (Program: FastQC)</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Download reference transcriptome assembly</li>
 </ol>
-<p><em>Note:</em> If you’re working with an organism that does not have a reference assembly, this is the point when you use your cleaned reads to make a reference assembly (e.g. program: Trinity), assess it’s quality (Programs: BUSCO, blastx to various databases)</p>
+<ul>
+<li><em>Note:</em> If you’re working with an organism that does not have a reference assembly, this is the point when you use your cleaned reads to make a reference assembly (e.g. program: Trinity), assess it’s quality (Programs: BUSCO, blastx to various databases)</li>
+</ul>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Map (a.k.a. Align) cleaned reads from each sample to the reference assembly to generate <strong>s</strong>equence <strong>a</strong>lign<strong>m</strong>ent files (Program: bwa, Input: <em>.fastq, Output: </em>.sam)</p></li>
 <li><p>Extract read count data from .sam files (i.e. the number of reads that map (align) to each “gene”)</p></li>
@@ -127,68 +125,199 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <thead>
 <tr class="header">
 <th>Student</th>
-<th>File</th>
+<th>Files</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Ethan</td>
-<td>WA_PP1_F1</td>
+<td>WA_PP1_F1*</td>
 </tr>
 <tr class="even">
 <td>Jamie</td>
-<td>WA_PP1_F2</td>
+<td>WA_PP1_F2*</td>
 </tr>
 <tr class="odd">
 <td>Lucy</td>
-<td>WA_PP1_F3</td>
+<td>WA_PP1_F3*</td>
 </tr>
 <tr class="even">
 <td>Morgan</td>
-<td>WA_PP1_M1</td>
+<td>WA_PP1_M1*</td>
 </tr>
 <tr class="odd">
 <td>Paul</td>
-<td>WA_PP1_M2</td>
+<td>WA_PP1_M2*</td>
 </tr>
 <tr class="even">
 <td>Suraj</td>
-<td>WA_PP1_M3</td>
+<td>WA_PP1_M3*</td>
 </tr>
 </tbody>
 </table>
 <p>You can find these in the directory <code>/data/project_data/beetles/rawdata/</code></p>
-<div id="peak" class="section level3">
-<h3>Peak</h3>
+<div id="peak-what-is-a-.fastq-file" class="section level3">
+<h3>Peak: What is a .fastq file?</h3>
 <p>Let’s take a peak into a file and learn something about what a .fastq file is:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">zcat</span> YOURFILENAME <span class="kw">|</span> <span class="kw">head</span></code></pre></div>
-<p><strong>The fast file format</strong> has 4 lines for each read: the read identifier, the read sequence, “+”, and a sequence of quality scores for each base.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">zcat</span> WA_PP1_F1_AGTCAA_L003_R1_001.fastq.gz <span class="kw">|</span> <span class="kw">head</span> -n4
+<span class="kw">@CCRI0219</span>:155:C2LNBACXX:3:1101:1499:1976 1:N:0:AGTCAA
+<span class="kw">CGGGATCGTAAGGAGCTAATTCTTTAGCACGGGATGTTTTTACTAAATCAACCCATTCCGGTACTTTTAGTTTTCCTGATTTTTTAAGAAATTGGGCGAA</span>
+<span class="kw">+</span>
+<span class="kw">@@?DDDDDFFH??FHBHGI4CB?FHGH&gt;</span>@<span class="kw">&lt;</span>EGG@DEHHIGIEFHE<span class="kw">&gt;</span>DH9CC3B<span class="kw">;;7@CCEBHEDEDEDE@ACAC;&gt;@CCCCCCFBBA&gt;</span>@C9A:<span class="kw">&gt;</span>@?B<span class="kw">&gt;&lt;</span>@</code></pre></div>
+<p><em>Note:</em> <code>zcat</code> lets us open a .gz (gzipped) file like <code>cat</code>; we then “pipe” <code>|</code> this output from <code>zcat</code> to the <code>head</code> command and print just the top 4 lines <code>-n4</code></p>
+<p>The fastq file format** has 4 lines for each read:</p>
+<table style="width:64%;">
+<colgroup>
+<col width="6%"></col>
+<col width="56%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Line</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Always begins with ‘@’ and then information about the read</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>The actual DNA sequence</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Always begins with a ‘+’ and sometimes the same info in line 1</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>A string of characters which represent the <strong>quality</strong> scores; always has same number of characters as line 2</td>
+</tr>
+</tbody>
+</table>
 <p><a href="http://www.drive5.com/usearch/manual/quality_score.html">Here’s a useful reference for understanding Quality (Phred) scores</a>. If P is the probability that a base call is an error, then:</p>
 <p>P = 10^(–Q/10)</p>
 <p>Q = –10 log10(P)</p>
+<p>So:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Phred Quality Score</th>
+<th>Probability of incorrect base call</th>
+<th>Base call accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10</td>
+<td>1 in 10</td>
+<td>90%</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>1 in 100</td>
+<td>99%</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>1 in 1000</td>
+<td>99.9%</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td>1 in 10,000</td>
+<td>99.99%</td>
+</tr>
+</tbody>
+</table>
 <p><strong><em>The Q score is translated to ASCII characters so that a two digit number can be represented by a single character.</em></strong> So cool!</p>
-<p>Typically, we accept bases with Q &gt;= 30, which is equivelant to a 0.1% chance of error (40 is 0.01% error, 20 is 1% error, 10 is 10% error).</p>
+<pre><code> Quality encoding: !&quot;#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHI
+                   |         |         |         |         |
+    Quality score: 0........10........20........30........40   </code></pre>
 <p><em>Based on the ASCII code table linked above, what kind of characters do you want to see in your quality score?</em></p>
 </div>
-<div id="visualize" class="section level3">
-<h3>Visualize</h3>
-<p>Now how can we look at the quality more systematically for all reads in the file? We can use <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/">the program FastQC</a> (also already installed in our <code>/data/popgen/</code> directory).</p>
+<div id="visualize-using-fastqc" class="section level3">
+<h3>Visualize using FastQC</h3>
+<p>Now how can we look at the quality more systematically for all reads in the file? We can use <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/">the program FastQC</a> (also already installed in our <code>/data/popgen/</code> directory). FastQC looks at the quality collectively across all reads in a sample.</p>
 <p>Now clean your file using the following command:</p>
-<pre><code>fastqc FILENAME.fq.gz</code></pre>
-<p>Move your .html file to your computer using the <code>scp</code>command from your machine (hint: open another terminal or putty window)</p>
+<pre><code>fastqc FILENAME.fastq.gz</code></pre>
+<p>Move your .html file you just generated to your computer using the <code>scp</code>command from your machine (hint: open another terminal or putty window)</p>
 <pre><code>scp NETID@pbio381.uvm.edu:YOURDIRECTORY/YOURFILE_fastqc.html .</code></pre>
 <p>The dot means “to the present directory” or you can direct it somewhere else.</p>
 <p>Alternatively, you can use a file tranfer program like fetch, etc.</p>
 <p><em>How does the quality look?</em></p>
 </div>
-<div id="clean" class="section level3">
-<h3>Clean</h3>
+<div id="clean-using-trimmomatic" class="section level3">
+<h3>Clean using Trimmomatic</h3>
 <p><a href="http://www.usadellab.org/cms/index.php?page=trimmomatic">Here’s a link to the Trimmomatic program</a> that we’ll use to clean the reads for each file. The program is already installed in our <code>/data/popgen/</code> directory.</p>
-<p>There’s an example script in the <code>/data/scripts/</code> directory. Make a directory in your directory called “scripts” and copy the bash script over, edit in vim, make it executable, and run it!</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cp</span> /data/scripts/trim_example.sh ~/scripts/ <span class="co"># copies the script</span>
-<span class="kw">chmod</span> u+x trim_example.sh                   <span class="co"># makes the script &quot;executable&quot;</span>
-<span class="kw">./trim_example.sh</span>       <span class="co"># executes the script, or bash trim_example.sh</span></code></pre></div>
-<p>Now check the quality of one of your cleaned files using fastqc again.</p>
+<p>We’ve provided an example script in the <code>/data/scripts/</code> directory this time because the program is a java based program and thus a bit more particular in its call. Make a directory in your home directory called “scripts” and another called “cleanreads” and copy the bash script over, edit in vim, make it executable, and run it!</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cp</span> /data/scripts/trim_example.sh ~/scripts/ <span class="co"># copies the script to your home scripts dir</span>
+<span class="kw">vim</span> trim_example.sh                       <span class="co"># open the script with vim to edit</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+      <span class="kw">java</span> -classpath /data/popgen/Trimmomatic-0.33/trimmomatic-0.33.jar org.usadellab.trimmomatic.TrimmomaticPE <span class="dt">\ </span> 
+                <span class="kw">-threads</span> 1 <span class="dt">\ </span>
+                <span class="kw">-phred33</span> \
+                 /data/project_data/beetle/rawdata/WA_PP1_YOURSAMPLE*_R1*.fastq.gz \
+                 /data/project_data/beetle/rawdata/WA_PP1_YOURSAMPLE*_R2*.fastq.gz \
+                 ~/cleanreads/<span class="st">&quot;WA_PP1_YOURSAMPLE_R1_clean_paired.fa&quot;</span> \
+                 ~/cleanreads/<span class="st">&quot;WA_PP1_YOURSAMPLE_R1_clean_unpaired.fa&quot;</span> \
+                 ~/cleanreads/<span class="st">&quot;WA_PP1_YOURSAMPLE_R2_clean_paired.fa&quot;</span> \
+                 ~/cleanreads/<span class="st">&quot;WA_PP1_YOURSAMPLE_R2_clean_unpaired.fa&quot;</span> \
+                 ILLUMINACLIP:/data/popgen/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 \
+                 LEADING:28 \
+                TRAILING:28 \
+                SLIDINGWINDOW:6:28 \
+                HEADCROP:12 \
+                MINLEN:35 \</code></pre></div>
+<p>Trimmomatic performs the cleaning steps in the order they are presented. It’s recommended to clip adapter early in the process and clean for length at the end.</p>
+<p>Here’s the general format of the command:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">java</span> -jar <span class="kw">&lt;</span>path to trimmomatic.jar<span class="kw">&gt;</span> PE 
+    [<span class="kw">-threads</span> <span class="kw">&lt;</span>threads] 
+    [<span class="kw">-phred33</span> <span class="kw">|</span> <span class="kw">-phred64</span>] 
+    <span class="kw">&lt;input</span> <span class="kw">1&gt;</span> 
+    <span class="kw">&lt;input</span> <span class="kw">2&gt;</span> 
+    <span class="kw">&lt;paired</span> output <span class="kw">1&gt;</span> 
+    <span class="kw">&lt;unpaired</span> output <span class="kw">1&gt;</span> 
+    <span class="kw">&lt;paired</span> output <span class="kw">2&gt;</span> 
+    <span class="kw">&lt;unpaired</span> output <span class="kw">2&gt;</span> 
+    <span class="kw">&lt;step</span> <span class="kw">1&gt;</span> 
+    <span class="kw">...</span></code></pre></div>
+<p>The steps and options are <a href="http://www.usadellab.org/cms/index.php?page=trimmomatic">from the Trimmomatic website</a>:</p>
+<ul>
+<li>ILLUMINACLIP:<fastaWithAdaptersEtc>:<seed mismatches>:<palindrome clip threshold>:<simple clip threshold></li>
+<li>SLIDINGWINDOW:<windowSize>:<requiredQuality></li>
+<li>windowSize: specifies the number of bases to average across</li>
+<li>requiredQuality: specifies the average quality required.</li>
+<li>LEADING:<quality></li>
+<li>quality: Specifies the minimum quality required to keep a base.</li>
+<li>TRAILING:<quality></li>
+<li>quality: Specifies the minimum quality required to keep a base.</li>
+<li>CROP:<length></li>
+<li>length: The number of bases to keep, from the start of the read.</li>
+<li>HEADCROP:<length></li>
+<li>length: The number of bases to remove from the start of the read.</li>
+<li>MINLEN:<length></li>
+<li>length: Specifies the minimum length of reads to be kept.</li>
+</ul>
+<pre><code>ILLUMINACLIP: Cut adapter and other illumina-specific sequences from the read.
+SLIDINGWINDOW: Perform a sliding window trimming, cutting once the average quality within the window falls below a threshold.
+LEADING: Cut bases off the start of a read, if below a threshold quality
+TRAILING: Cut bases off the end of a read, if below a threshold quality
+CROP: Cut the read to a specified length
+HEADCROP: Cut the specified number of bases from the start of the read
+MINLEN: Drop the read if it is below a specified length</code></pre>
+<div id="now-run-your-script" class="section level4">
+<h4>Now run your script!</h4>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">chmod</span> u+x trim_example.sh    <span class="co"># makes the script &quot;executable&quot; by the &quot;user&quot;</span>
+<span class="kw">./trim_example.sh</span>           <span class="co"># executes the script, or bash trim_example.sh</span></code></pre></div>
+</div>
+</div>
+<div id="visualize-again-using-fastqc" class="section level3">
+<h3>Visualize again using FastQC</h3>
+<p>Check the quality of one of your cleaned files using fastqc again.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">                <span class="co"># You fill in the blank!</span></code></pre></div>
+<p>Should we play with when to do the HEADCROP step?</p>
 </div>
 </div>
 </div>
