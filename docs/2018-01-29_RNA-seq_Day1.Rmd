@@ -13,11 +13,11 @@ fontsize: 18pt
 2. To understand the general work flow or "pipeline" for processing and analyzing RNAseq data.
 3. To learn how to make/write a bash script and how write a script to process files in batches (*.sh files and #! should mean something to you by the end of today).
 4. To visualize and interpret Illumina data quality (what is a .fastq file and what are Phred scores?).
-5. To add to your growing list of bioinformatics tricks: using the `screen` command and how to test scripts with a subset of your data.
+5. To add to your growing list of bioinformatics tricks (take notes!).
 
 
 
-## 1. *Onthophagus taurus*
+## 1. The bull headed beetle, *Onthophagus taurus*
 
 Native to the mediterranean, this dung beetle was deliberately introduced to Australia in the late 1960s with a massive, government led effort to help reduce fly pests and disease that were plaguing livestock.  In the early 1970s, the beetles were "accidentally" introduced to the eastern United States from an unknown origin.  
 

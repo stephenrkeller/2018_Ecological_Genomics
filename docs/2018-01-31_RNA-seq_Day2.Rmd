@@ -1,0 +1,20 @@
+---
+title: "P/BIO381 Tutorials: Working with RNA-seq data - Day 2"
+date: 'January 31, 2018'
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+fontsize: 18pt
+---
+
+# Learning Objectives for 1/31/18
+
+1. To reinforce our understanding of the general work flow or "pipeline" for processing and analyzing RNAseq data.
+2. To learn how data to download data from a website to a server (though you won't need to do it now).
+3. To start mapping (a.k.a. aligning) each set of cleaned reads to a reference transcriptome (Program: bwa; Input: .fastq; Output: .sam).
+4. To extract read count data from .sam files (i.e. the number of reads that map (align) to each "gene")
+
+## Download reference transcriptome
+
+
+
