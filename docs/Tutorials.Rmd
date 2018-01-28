@@ -10,9 +10,9 @@ fontsize: 18pt
 
 **List of Tutorials** 
 
-1. 2018-01-24:[Command-line UNIX tutorial](2018-01-24_Command_Line_Unix.html)
+1. 2018-01-24: [Command-line UNIX tutorial](2018-01-24_Command_Line_Unix.html)
 
-2. 2018-01-29:[RNA-seq tutorial - Day 1](2018-01-29_RNA-seq_Day1.html)
+2. 2018-01-29: [RNA-seq tutorial - Day 1](2018-01-29_RNA-seq_Day1.html)
 
 
 
