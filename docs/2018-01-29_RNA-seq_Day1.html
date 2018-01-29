@@ -86,10 +86,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ol>
 <div id="the-bull-headed-beetle-onthophagus-taurus" class="section level2">
 <h2>1. The bull headed beetle, <em>Onthophagus taurus</em></h2>
-<p>Native to the mediterranean, this dung beetle was deliberately introduced to Australia in the late 1960s with a massive, government led effort to help reduce fly pests and disease that were plaguing livestock. In the early 1970s, the beetles were “accidentally” introduced to the eastern United States from an unknown origin.</p>
+<p>Native to the mediterranean, this dung beetle was deliberately introduced to Australia in the late 1960s with a massive, government-led effort to help reduce fly pests and disease that were plaguing livestock. In the early 1970s, the beetles were “accidentally” introduced to the eastern United States from an unknown origin.</p>
 <p><em>The experimental design:</em></p>
 <ul>
-<li>Three populations reared in a common garden for more than two generations: from the native range, Italy (IT), from Western Australia (WA), from North Carolina (NC)</li>
+<li>Three populations reared in a common garden lab conditions for more than two generations: from the native range, Italy (IT), from Western Australia (WA), from North Carolina (NC)</li>
 <li>Four developmental stages: late third larval instart (L3L), pre-pupae day 1 (PP1), pupae day 1 (PD1), and adults four days after ecolsion (AD4)</li>
 <li>Both sexes; three individuals per sex</li>
 <li>3 pops * 4 developmental stages * 2 sexes * 3 individuals = 72 samples</li>
@@ -99,8 +99,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="the-pipeline" class="section level2">
 <h2>2. The “pipeline”</h2>
 <ol style="list-style-type: decimal">
-<li>​ a. Visualize the quality of raw data (Program: FastQC)</li>
+<li>​Visualize, Clean, Visualize</li>
 </ol>
+<p>​ a. Visualize the quality of raw data (Program: FastQC)</p>
 <p>​ b. Clean raw data (Program: Trimmomatic)</p>
 <p>​ c. Visualize the quality of cleaned data (Program: FastQC)</p>
 <ol start="2" style="list-style-type: decimal">
@@ -231,19 +232,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p><strong><em>The Q score is translated to ASCII characters so that a two digit number can be represented by a single character.</em></strong> So cool!</p>
+<p><strong><em>The Phred Q score is translated to ASCII characters so that a two digit number can be represented by a single character.</em></strong> So clever!</p>
 <pre><code> Quality encoding: !&quot;#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHI
                    |         |         |         |         |
     Quality score: 0........10........20........30........40   </code></pre>
-<p><em>Based on the ASCII code table linked above, what kind of characters do you want to see in your quality score?</em></p>
+<p><em>What kind of characters do you want to see in your quality score?</em></p>
 </div>
 <div id="visualize-using-fastqc" class="section level3">
 <h3>Visualize using FastQC</h3>
-<p>Now how can we look at the quality more systematically for all reads in the file? We can use <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/">the program FastQC</a> (also already installed in our <code>/data/popgen/</code> directory). FastQC looks at the quality collectively across all reads in a sample.</p>
-<p>Now clean your file using the following command:</p>
+<p>How can we look at the quality more systematically for all reads in the file? We can use <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/">the program FastQC</a> (also already installed in our <code>/data/popgen/</code> directory). FastQC looks at the quality collectively across all reads in a sample.</p>
+<p>Clean your file using the following command:</p>
 <pre><code>fastqc FILENAME.fastq.gz</code></pre>
-<p>Move your .html file you just generated to your computer using the <code>scp</code>command from your machine (hint: open another terminal or putty window)</p>
-<pre><code>scp NETID@pbio381.uvm.edu:YOURDIRECTORY/YOURFILE_fastqc.html .</code></pre>
+<p>This will generate an .html output file in the directory in which you run your command. You could run this from a directory in your home directory; to do that you would need to provide the full path to the input file.</p>
+<p>Move your .html file you just generated to your computer using the <code>scp</code> command from your computer (hint: open another terminal or putty window)</p>
+<pre><code>scp NETID@pbio381.uvm.edu:/PATHTODIRECTORY/YOURFILE_fastqc.html .</code></pre>
 <p>The dot means “to the present directory” or you can direct it somewhere else.</p>
 <p>Alternatively, you can use a file tranfer program like fetch, etc.</p>
 <p><em>How does the quality look?</em></p>
@@ -260,10 +262,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                 <span class="kw">-phred33</span> \
                  /data/project_data/beetle/rawdata/WA_PP1_YOURSAMPLE*_R1*.fastq.gz \
                  /data/project_data/beetle/rawdata/WA_PP1_YOURSAMPLE*_R2*.fastq.gz \
-                 ~/cleanreads/<span class="st">&quot;WA_PP1_YOURSAMPLE_R1_clean_paired.fa&quot;</span> \
-                 ~/cleanreads/<span class="st">&quot;WA_PP1_YOURSAMPLE_R1_clean_unpaired.fa&quot;</span> \
-                 ~/cleanreads/<span class="st">&quot;WA_PP1_YOURSAMPLE_R2_clean_paired.fa&quot;</span> \
-                 ~/cleanreads/<span class="st">&quot;WA_PP1_YOURSAMPLE_R2_clean_unpaired.fa&quot;</span> \
+                 ~/cleanreads/<span class="st">&quot;YOURSAMPLE_R1_clean_paired.fa&quot;</span> \
+                 ~/cleanreads/<span class="st">&quot;YOURSAMPLE_R1_clean_unpaired.fa&quot;</span> \
+                 ~/cleanreads/<span class="st">&quot;YOURSAMPLE_R2_clean_paired.fa&quot;</span> \
+                 ~/cleanreads/<span class="st">&quot;YOURSAMPLE_R2_clean_unpaired.fa&quot;</span> \
                  ILLUMINACLIP:/data/popgen/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 \
                  LEADING:28 \
                 TRAILING:28 \
