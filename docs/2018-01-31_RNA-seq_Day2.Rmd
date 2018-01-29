@@ -14,7 +14,30 @@ fontsize: 18pt
 3. To start mapping (a.k.a. aligning) each set of cleaned reads to a reference transcriptome (Program: bwa; Input: .fastq; Output: .sam).
 4. To extract read count data from .sam files (i.e. the number of reads that map (align) to each "gene")
 
-## Download reference transcriptome
+## (If you needed to) Download the reference transcriptome
 
+The *Onthophagus* genome resources can be found [here](https://i5k.nal.usda.gov/Onthophagus_taurus).
 
+You don't actually need to do this because we already have the file in the directory below.  But for future reference `wget` is a useful command.
+
+```bash
+cd /data/project_data/beetles/reference/
+wget https://i5k.nal.usda.gov/data/Arthropoda/onttau-%28Onthophagus_taurus%29/Current%20Genome%20Assembly/2.Official%20or%20Primary%20Gene%20Set/BCM_version_0.5.3/consensus_gene_set/OTAU.fna
+```
+
+## Map your reads to the reference transcriptome
+
+We'll use the program `bwa` to map our reads to the reference transcriptome.  The manual can be found [here](http://bio-bwa.sourceforge.net/bwa.shtml).
+
+The first step is to index the reference transcriptome, but that only needs to be done once.  So we've done this step already, but here's the command.
+
+```bash
+bwa index OTAU.fna
+```
+
+Your first step is to map your cleaned reads using the `bwa mem` command.
+
+```bash
+bwa mem <> <> <> .... # you fill in the blanks!
+```
 
