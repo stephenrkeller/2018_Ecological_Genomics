@@ -33,13 +33,13 @@ Native to the mediterranean, this dung beetle was deliberately introduced to Aus
 
 ## 2. The "pipeline"
 
-1. ​Visualize, Clean, Visualize
+1. Visualize, Clean, Visualize
 
-   ​	a. Visualize the quality of raw data (Program: FastQC)
++ Visualize the quality of raw data (Program: FastQC)
 
-   ​	b. Clean raw data (Program: Trimmomatic)
++ Clean raw data (Program: Trimmomatic)
 
-   ​	c. Visualize the quality of cleaned data (Program: FastQC)
++ Visualize the quality of cleaned data (Program: FastQC)
 
 2. Download reference transcriptome assembly
 
@@ -99,7 +99,7 @@ The fastq file format** has 4 lines for each read:
 
 [Here's a useful reference for understanding Quality (Phred) scores](http://www.drive5.com/usearch/manual/quality_score.html).  If P is the probability that a base call is an error, then:
 
-P = 10^(–Q/10) 
+P = 10^(–Q/10)
 
 Q = –10 log10(P)
 
