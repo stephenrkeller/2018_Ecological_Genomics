@@ -255,15 +255,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="clean-using-trimmomatic" class="section level3">
 <h3>Clean using Trimmomatic</h3>
 <p><a href="http://www.usadellab.org/cms/index.php?page=trimmomatic">Here’s a link to the Trimmomatic program</a> that we’ll use to clean the reads for each file. The program is already installed in our <code>/data/popgen/</code> directory.</p>
-<p>We’ve provided an example script in the <code>/data/scripts/</code> directory this time because the program is a java based program and thus a bit more particular in its call. Make a directory in your home directory called “scripts” and another called “cleanreads” and copy the bash script over, edit in vim, make it executable, and run it!</p>
+<p>We’ve provided an example script in the <code>/data/scripts/</code> directory this time because the program is a java based program and thus a bit more particular in its call.</p>
+<ol style="list-style-type: decimal">
+<li>Make a directory in your home directory called “scripts” and another called “cleanreads”</li>
+<li>Copy the bash script over to your ~/scripts directory</li>
+<li>Open and edit bash script using the program vim</li>
+<li>Change the permissions on your script to make it executable, then run it! (examples below)</li>
+</ol>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cp</span> /data/scripts/trim_example.sh ~/scripts/ <span class="co"># copies the script to your home scripts dir</span>
 <span class="kw">vim</span> trim_example.sh                       <span class="co"># open the script with vim to edit</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
       <span class="kw">java</span> -classpath /data/popgen/Trimmomatic-0.33/trimmomatic-0.33.jar org.usadellab.trimmomatic.TrimmomaticPE <span class="dt">\ </span> 
                 <span class="kw">-threads</span> 1 <span class="dt">\ </span>
                 <span class="kw">-phred33</span> \
-                 /data/project_data/beetle/rawdata/WA_PP1_YOURSAMPLE*_R1*.fastq.gz \
-                 /data/project_data/beetle/rawdata/WA_PP1_YOURSAMPLE*_R2*.fastq.gz \
+                 /data/project_data/beetles/rawdata/WA_PP1_YOURSAMPLE_R1.fastq.gz \
+                 /data/project_data/beetles/rawdata/WA_PP1_YOURSAMPLE_R2.fastq.gz \
                  ~/cleanreads/<span class="st">&quot;YOURSAMPLE_R1_clean_paired.fa&quot;</span> \
                  ~/cleanreads/<span class="st">&quot;YOURSAMPLE_R1_clean_unpaired.fa&quot;</span> \
                  ~/cleanreads/<span class="st">&quot;YOURSAMPLE_R2_clean_paired.fa&quot;</span> \
@@ -334,7 +340,7 @@ MINLEN: Drop the read if it is below a specified length</code></pre>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

@@ -150,7 +150,12 @@ Alternatively, you can use a file tranfer program like fetch, etc.
 
 [Here's a link to the Trimmomatic program](http://www.usadellab.org/cms/index.php?page=trimmomatic) that we'll use to clean the reads for each file. The program is already installed in our `/data/popgen/` directory.
 
-We've provided an example script in the `/data/scripts/` directory this time because the program is a java based program and thus a bit more particular in its call.  Make a directory in your home directory called "scripts" and another called "cleanreads" and copy the bash script over, edit in vim, make it executable, and run it!
+We've provided an example script in the `/data/scripts/` directory this time because the program is a java based program and thus a bit more particular in its call.  
+
+1. Make a directory in your home directory called "scripts" and another called "cleanreads"
+2. Copy the bash script over to your ~/scripts directory
+3. Open and edit bash script using the program vim
+4. Change the permissions on your script to make it executable, then run it!  (examples below)
 
 ```bash
 cp /data/scripts/trim_example.sh ~/scripts/ # copies the script to your home scripts dir
@@ -162,8 +167,8 @@ vim trim_example.sh						  # open the script with vim to edit
       java -classpath /data/popgen/Trimmomatic-0.33/trimmomatic-0.33.jar org.usadellab.trimmomatic.TrimmomaticPE \  
                 -threads 1 \ 
                 -phred33 \
-                 /data/project_data/beetle/rawdata/WA_PP1_YOURSAMPLE*_R1*.fastq.gz \
-                 /data/project_data/beetle/rawdata/WA_PP1_YOURSAMPLE*_R2*.fastq.gz \
+                 /data/project_data/beetles/rawdata/WA_PP1_YOURSAMPLE_R1.fastq.gz \
+                 /data/project_data/beetles/rawdata/WA_PP1_YOURSAMPLE_R2.fastq.gz \
                  ~/cleanreads/"YOURSAMPLE_R1_clean_paired.fa" \
                  ~/cleanreads/"YOURSAMPLE_R1_clean_unpaired.fa" \
                  ~/cleanreads/"YOURSAMPLE_R2_clean_paired.fa" \
