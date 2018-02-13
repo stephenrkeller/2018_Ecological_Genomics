@@ -22,6 +22,9 @@ fontsize: 18pt
 
 6. 2018-02-12: [RNA-seq tutorial - Day 5](2018-02-12_RNA-seq_Day5.html)
 
+7. 2018-02-14: [RNA-seq tutorial - Day 6](2018-02-14_RNA-seq_Day6.html)
+
+
 
 
 ### Troubleshooting   

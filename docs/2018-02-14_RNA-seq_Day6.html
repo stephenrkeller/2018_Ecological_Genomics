@@ -11,8 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+<meta name="date" content="2018-02-14" />
 
-<title>Tutorials and Scripts</title>
+<title>P/BIO381 Tutorials: Working with RNA-seq data - Day 6</title>
 
 
 
@@ -29,25 +30,35 @@
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name">Tutorials and Scripts</h1>
+<h1 class="title toc-ignore project-name">P/BIO381 Tutorials: Working with RNA-seq data - Day 6</h1>
+<h4 class="date project-date">February 14, 2018</h4>
 </section>
 
 
 
 <section class="main-content">
-<p><a href="index.html">Back to main page</a></p>
-<p><strong>List of Tutorials</strong></p>
+<div id="learning-objectives-for-21418---same-as-day-5" class="section level1">
+<h1>Learning Objectives for 2/14/18 - Same as Day 5!</h1>
 <ol style="list-style-type: decimal">
-<li><p>2018-01-24: <a href="2018-01-24_Command_Line_Unix.html">Command-line UNIX tutorial</a></p></li>
-<li><p>2018-01-29: <a href="2018-01-29_RNA-seq_Day1.html">RNA-seq tutorial - Day 1</a></p></li>
-<li><p>2018-01-31: <a href="2018-01-31_RNA-seq_Day2.html">RNA-seq tutorial - Day 2</a></p></li>
-<li><p>2018-02-05: <a href="2018-02-05_RNA-seq_Day3.html">RNA-seq tutorial - Day 3</a></p></li>
-<li><p>2018-02-07: <a href="2018-02-07_RNA-seq_Day4.html">RNA-seq tutorial - Day 4</a></p></li>
-<li><p>2018-02-12: <a href="2018-02-12_RNA-seq_Day5.html">RNA-seq tutorial - Day 5</a></p></li>
-<li><p>2018-02-14: <a href="2018-02-14_RNA-seq_Day6.html">RNA-seq tutorial - Day 6</a></p></li>
+<li>To continue to learn how we can use R and the package DESeq2 to test for differences in gene expression and visualize the quality and patterns in our data.</li>
+<li>To learn how we can test for “functional enrichment” in differentially expressed genes.</li>
 </ol>
-<div id="troubleshooting" class="section level3">
-<h3>Troubleshooting</h3>
+<div id="continuing-to-use-deseq2-to-test-for-differences-in-gene-expression" class="section level2">
+<h2>Continuing to use DESeq2 to test for differences in Gene Expression</h2>
+<p>Today we will continue to build on our scripts in R using the package DESeq2 to test for differences in gene expression. There are four main aspects to the task:</p>
+<ul>
+<li>Importing the counts matrix and the column information files.</li>
+<li>Deciding and defining our models for testing for exression differences and running the analyses.</li>
+<li>Visualizing the data at both at the global, transcriptome-wide scale using PCA and heatmaps as well as at the scale of the individual gene.</li>
+<li>Saving outputs for other analyses and figures (exporting .csv and .pdf files).</li>
+</ul>
+</div>
+<div id="functional-enrichment-tests" class="section level2">
+<h2>Functional enrichment tests</h2>
+<p>Functional enrichment analyses test for the non-random concentration of differentially expressed genes in specific classes of genes characterized by their protein function. As always, there are many ways to do this. Today we will use an enrichment approach and scripts generated and provided by one of the authors of the paper we read, Dr. Matz at University of Texas, Austin. He has kindly provided all <a href="https://github.com/z0on/GO_MWU">the scripts and description for GO Mann-Whitney U on a github page</a>.</p>
+<p>I have already downloaded the scripts and necessary databases to our server. I have also put the needed output of DESeq2 results that will serve as input for GOMWU analysis.</p>
+<p>Find them on our server in <code>/data/project_data/beetles/enrichment</code>.</p>
+</div>
 </div>
 </section>
 
