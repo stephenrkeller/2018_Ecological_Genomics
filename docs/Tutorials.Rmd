@@ -26,6 +26,8 @@ fontsize: 18pt
 
 8. 2018-02-21: [RNA-seq tutorial - Day 7](2018-02-21_RNA-seq_Day7.html)
 
+9. 2018-02-26: [PopGenomics tutorial - Day 1](2018-02-26_PopGenomics_Day1.html)
+
 
 
 ### Troubleshooting   

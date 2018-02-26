@@ -46,13 +46,36 @@ bcftools mpileup \
   
 # working in vcftools now
 
-# Compare the vcf files derived from the 2 different SNP callers:
+# Once:
+vcftools --vcf WA_PP1_F1.vcf --min-alleles 2 --max-alleles 2 --minDP 5 --max-missing 0.5 --mac
 
+for DP in {5..6}
+do
+vcftools --vcf OTAU_2018_bcftools.vcf --min-alleles 2 --max-alleles 2 --mac 2 \
+  --minDP $DP --site-pi --out $DP
+done
+
+touch pi.txt
+for i in *sites.pi
+do
+cut $i -f 3 | paste - pi.txt >pi.txt
+done
+
+
+#compare minDP {5..25} for:
+# --site-pi
+# --hardy
+# --het
+# --TajimasD 100000
+# --SNPdensity
+
+
+# Then bring into R and make line or boxplots...
+
+
+# Compare the vcf files derived from the 2 different SNP callers:
 vcftools --vcf samtools.vcf --diff reads2snps.vcf --diff-site-discordance
 
-
-# Once:
-vcftools --vcf WA_PP1_F1.vcf --min-alleles 2 --max-alleles 2 --minDP 5 --het
 
 
 

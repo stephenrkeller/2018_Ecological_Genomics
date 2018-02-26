@@ -12,10 +12,30 @@
 
 
 
-<title>Tutorials and Scripts</title>
+<title>P/BIO381 Tutorials: Population Genomics 1: Intro to SNP and Genotype Calling</title>
 
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
 
 
 
@@ -29,27 +49,109 @@
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name">Tutorials and Scripts</h1>
+<h1 class="title toc-ignore project-name">P/BIO381 Tutorials: Population Genomics 1: Intro to SNP and Genotype Calling</h1>
+<h4 class="date project-date">Feb 26, 2018</h4>
 </section>
 
 
 
 <section class="main-content">
-<p><a href="index.html">Back to main page</a></p>
-<p><strong>List of Tutorials</strong></p>
+<div id="goals" class="section level3">
+<h3>Goals:</h3>
+<ul>
+<li>Take sequence alignment files (sam) and extract mapping stats &amp; read depth coverage</li>
+<li>Convert sam to binary (bam) format, and use samtools/bcftools for SNP detection</li>
+<li>Learn Variant Call Format (vcf) for storing SNP genotypes</li>
+<li>Begin to evaluate filtering strategies for determining high-quality SNPs for downstream analyses</li>
+</ul>
+<p>We’re going to first call SNPs using the widely used program ‘<strong>Samtools</strong>’. Manual can be found <a href="http://www.htslib.org/doc/samtools.html">here</a></p>
+<p>Samtools is a powerful tool for manipulating sam files (and their binary equivalent, bam), and for “piling up” all those reads across our sample individuals to call SNPs and genotypes</p>
+<p>Let’s practice our bash writing code by working with each of our individual sam files from the RNASeq mapping, and using samtools to:</p>
 <ol style="list-style-type: decimal">
-<li><p>2018-01-24: <a href="2018-01-24_Command_Line_Unix.html">Command-line UNIX tutorial</a></p></li>
-<li><p>2018-01-29: <a href="2018-01-29_RNA-seq_Day1.html">RNA-seq tutorial - Day 1</a></p></li>
-<li><p>2018-01-31: <a href="2018-01-31_RNA-seq_Day2.html">RNA-seq tutorial - Day 2</a></p></li>
-<li><p>2018-02-05: <a href="2018-02-05_RNA-seq_Day3.html">RNA-seq tutorial - Day 3</a></p></li>
-<li><p>2018-02-07: <a href="2018-02-07_RNA-seq_Day4.html">RNA-seq tutorial - Day 4</a></p></li>
-<li><p>2018-02-12: <a href="2018-02-12_RNA-seq_Day5.html">RNA-seq tutorial - Day 5</a></p></li>
-<li><p>2018-02-14: <a href="2018-02-14_RNA-seq_Day6.html">RNA-seq tutorial - Day 6</a></p></li>
-<li><p>2018-02-21: <a href="2018-02-21_RNA-seq_Day7.html">RNA-seq tutorial - Day 7</a></p></li>
-<li><p>2018-02-26: <a href="2018-02-26_PopGenomics_Day1.html">PopGenomics tutorial - Day 1</a></p></li>
+<li>Convert from sam &gt;&gt; bam</li>
+<li>Check mapping stats</li>
+<li>Fix reads that are no longer mated (paired)</li>
+<li>Remove duplicates (takes awhile)</li>
+<li>Index for computational efficiency</li>
+<li>Use the companion program <a href="https://samtools.github.io/bcftools/bcftools.html">bcftools</a> to call SNPs and genotypes</li>
 </ol>
-<div id="troubleshooting" class="section level3">
-<h3>Troubleshooting</h3>
+<p>Another cool feature of samtools is that it has an internal aligment viewer called ‘tview’. Let’s use tview to look at your bam alignments after indexing. There’s also a lot of information in our alignments that will be important for analyzing the SNP data downstream.</p>
+<p><em>These are things like:</em></p>
+<ul>
+<li><strong>Position</strong>: Where is the SNP located within a contig or chromosome of the reference assembly?</li>
+<li><strong>Alleles</strong>: What are the alleles present at a given SNP? Are there only 2, or are there more? Are they single-nucleotide differences? Which SNPs are seqeuncing errors and which are real?</li>
+<li><strong>Depth</strong>: How many reads cover a given SNP? How many reads were observed for each allele?</li>
+<li><strong>Genotype Quality (GQ):</strong> How confident are we that we’re calling the correct genotype (ex., AA, AT, or TT)? How can we tell a heterozygote from sequencing error?</li>
+</ul>
+<hr />
+</div>
+<div id="variant-call-format-vcf-for-snp-data" class="section level2">
+<h2>Variant Call Format (VCF) for SNP data</h2>
+<p>After SNP calling is done, we generally store just the polymorphic sites in a new file.</p>
+<p>As usual, the community has converged on a common standard to represent these large and sometimes complex SNP data files. It is known as the Variant Call Format, or VCF. Here’s a link to the description of what each field in a VCF file means: <a href="https://github.com/samtools/hts-specs/blob/master/VCFv4.3.pdf">VCF version 4.3 file definition</a></p>
+<p>We’ll be working with vcf files a lot as we conduct the population genomics section of the course. The first step in learning how to work with these files is to use a program called <strong>VCFTools</strong> for parsing your data file into just those samples and sites of interest, and to calculate diversity stats on these.</p>
+<p>The manual page for VCFtools is an excellent resource! <a href="https://vcftools.github.io/man_latest.html">The latest version is here.</a></p>
+<p>We’re going to use VCFtools to examine the effects of different filtering strategies on the number of SNPs we get and their quality. The first step is seeing if VCFtools likes our file format, and getting some basic info on the # of SNPs and samples.</p>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">vcftools</span> --vcf filename.vcf</code></pre>
+<p>This will return some basic info that should match of general expectations of sample size.</p>
+<p>​ <em>Did it detect the correct number of individuals?</em></p>
+<p>​ <em>How many SNPs do we have?</em></p>
+<p>Now, let’s try filtering out positions that are likely to be errors in the sequencing or genotyping process. For now, let’s just identify how many SNPs would pass each filter without actually changing the datafile at all. Then, we can decide what combination of filters we may want to implement.</p>
+<div id="record-for-each-of-the-following-steps-the-number-of-snps-aka-sites-that-would-be-make-it-through-each-filter" class="section level3">
+<h3>Record for each of the following steps the number of SNPs (aka sites) that would be make it through each filter:</h3>
+<div id="biallelic-vs.multi-allelic-snps-keep-only-sites-with-2-alleles." class="section level4">
+<h4>* <em>Biallelic vs. multi-allelic SNPs:</em> Keep only sites with 2 alleles.</h4>
+<ul>
+<li>Rationale: When looking at diversity within species, it’s very rare to have mutations occur at the same position. So, SNPs with &gt;2 alleles probably reflect sequence or mapping errors. We also want to get rid of SNPs showing &lt;2 alleles.</li>
+</ul>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">vcftools</span> --vcf filename.vcf --min-alleles 2 --max-alleles 2</code></pre>
+</div>
+<div id="reads-depth-per-site-mindp-gets-rid-of-snps-with-low-s-of-reads." class="section level4">
+<h4>* <em>Reads depth per site (minDP):</em> Gets rid of SNPs with low #’s of reads.</h4>
+<ul>
+<li>Rationale: Error rates for calling genotypes depend on how many reads are covering the site; more reads leads to greater confidence that the genotype is being called correctly. This follows a multinomial distribution (because there are 3 categories of genotypes). But, if minDP is too high, we will start to lose SNPs quickly…</li>
+</ul>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">vcftools</span> --vcf filename.vcf --minDP 5</code></pre>
+</div>
+<div id="missing-data-across-individuals-get-rid-of-sites-where-fewer-than-50-of-our-samples-have-data." class="section level4">
+<h4>* <em>Missing data across individuals:</em> Get rid of sites where fewer than 50% of our samples have data.</h4>
+<ul>
+<li>Rationale: Missing data is a problem for any analysis, and population genetic statistics can behave oddly (i.e.. become biased) when a lot of individuals are missing data for a given SNP.</li>
+</ul>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">vcftools</span> --vcf filename.vcf --max-missing 0.5</code></pre>
+</div>
+<div id="minor-allele-count-mac-gets-rid-of-very-rare-snps-based-on-a-user-defined-threshold." class="section level4">
+<h4>* <em>Minor allele count (MAC):</em> Gets rid of very rare SNPs (based on a user-defined threshold).</h4>
+<ul>
+<li>Rationale: Sequencing errors are relatively common, but they tend to happen randomly and affect only 1 read at a time. Thus, if we have a SNP that is only seen very rarely, it may be a sequencing error, and should be discarded. For us, the most liberal filters would be having a minimum of 2 copies of the minor allele present out of the total 2N copies.</li>
+</ul>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">vcftools</span> --vcf filename.vcf --mac 2</code></pre>
+</div>
+</div>
+<div id="combining-filters" class="section level3">
+<h3>Combining filters:</h3>
+<p>We can combine filters instead of applying them one at a time:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">vcftools</span> --vcf filename.vcf --min-alleles 2 --max-alleles 2 -minDP 5 --max-missing 0.5 --mac 2 </code></pre>
+</div>
+</div>
+<div id="evaluating-the-influence-of-read-depth-on-inferences-of-genetic-diversity" class="section level2">
+<h2>Evaluating the influence of read depth on inferences of genetic diversity</h2>
+<p>VCFtools also can provide output in the form of many useful summary stats on a vcf file. We’d like to know how sensitive our inferences of diversity are to the range of read depths present among SNP sites, which directly relates to how much confidence we have that a genotype has been called correctly.</p>
+<p>We can write a bash script with a do-loop to run vcftools iteratively for each of a range of depths. Unix will take a range of a variable and process it in a loop using curly brackets, like {4..10}</p>
+<p>You can then bring the outputs into R to plot how diversity relates to the stringency of your filters</p>
+<div id="comparing-between-snp-callers" class="section level3">
+<h3>Comparing between SNP callers:</h3>
+<p>In addition, as a comparison to the ‘samtools’ SNP caller, I also called SNPs using the method implemented in Gayral et al. (2014) that we read today called ‘<strong>reads2snp</strong>’. It will be interesting to compare how the to programs agree (or not).</p>
+<p>During SNP calling, <strong>reads2snps</strong> applied the following fairly stringent criteria when calling SNPs:</p>
+<ul>
+<li>Minimum depth to call a genotype = 10 reads</li>
+<li>Minimum genotype posterior probability = 0.95</li>
+</ul>
+<p>Any SNPs that didn’t meet that criteria were flagged as <strong>unres</strong> (=unresolved) and set to missing data in the vcf file. Similarly, loci that show evidence of paralogy were flagged as <strong>para</strong>.</p>
+<p> <em>How could we quickly find out how many SNPs were flagged as unresolved?</em></p>
+<p> <em>What about the number affected by paralogy?</em></p>
+<p>We can use <strong>vcftools</strong> to compare the difference in the number of SNP sites detected.</p>
+</div>
 </div>
 </section>
 
