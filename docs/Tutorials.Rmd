@@ -28,6 +28,8 @@ fontsize: 18pt
 
 9. 2018-02-26: [PopGenomics tutorial - Day 1](2018-02-26_PopGenomics_Day1.html)
 
+10. 2018-02-28: [PopGenomics tutorial - Day 2](2018-02-28_PopGenomics_Day2.html)
+
 
 
 ### Troubleshooting   
