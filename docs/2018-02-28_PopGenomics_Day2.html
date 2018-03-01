@@ -66,7 +66,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 <div id="getting-summary-stats-for-downstream-analysis-and-plotting-in-r" class="section level2">
 <h2>Getting summary stats for downstream analysis and plotting in R</h2>
-<p>We should now be familiar with working with SNP data in VCF files, and doing some basic filtering. Now that we have a filtered SNP dataset that has high-quality sites in it, let’s look at some different measures of genetic diversity in our sea star population.</p>
+<p>We should now be familiar with working with SNP data in VCF files, and doing some basic filtering. Now that we have a filtered SNP dataset that has high-quality sites in it, let’s look at some different measures of genetic diversity in our sample.</p>
 <p>Keep in mind that the diversity of a population primarily reflects its <strong>effective population size (Ne)</strong>. Ne is shaped by many different aspects of a species’ life history and ecology (sex ratio, generation time, mating system, offspring number, and many more!) as well as the population’s history (bottlenecks, population growth). As a result, looking at the diversity within populations (and comparing to other populations or species) is a critical step in understanding how ecology shapes genomes.</p>
 <p>Now: Let’s take a more in-depth look at the diversity hidden within our RNASeq data. There are many different ways to look at the diversity within populations using SNPs. Here are some that we’ll think about for today:</p>
 <ul>
@@ -77,7 +77,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="diversity-metrics-based-on-subsetting-your-vcf-files" class="section level3">
 <h3>Diversity metrics based on subsetting your VCF files:</h3>
 <p>Many times we’ll want to subset the total SNP dataset to analyze diversity in different groups. Say, compare allele frequencies in different populations. This is easy, you just need to create a separate text file containing which samples below to which groups so you can tell Vcftools how to split things up.</p>
-<p>As an example, <strong>let’s compare the SNP frequencies for all loci between our 3 populations</strong>. Perhaps there are some loci that contribute to a difference in pathogen susceptibility, which could be identified this way. Let’s take a look.</p>
+<p>As an example, <strong>let’s compare the SNP frequencies for all loci between our 3 populations</strong>.</p>
 <p>First, you need to create text files containing the individual ID’s for each population separately. Path to the metadata:</p>
 <pre><code>/data/project_data/beetles.metadata/cols_data.txt</code></pre>
 <p>Use this file to get <em>just the <strong>IT</strong> individual sample IDs</em>.</p>
@@ -93,12 +93,12 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li>Download the results files to our laptops using scp or Fetch [MacOS] or Winscp [PC]</li>
 <li>Stay on the server, and use the command-line version of R. This latter option can be more efficient if we want to do a quick look and make some simple plots, but isn’t good for more complicated tasks.</li>
 </ol>
-<p>Let’s bring in the results we got from VCFtools to R. The Site Frequency Spectrum (SFS), which is simply a histogram of the allele frequencies across loci. We’ll use R’s ‘hist’ function for this.</p>
+<p>Let’s bring in the results we got from VCFtools to R. The Site Frequency Spectrum (SFS) is simply a histogram of the allele frequencies across loci. We’ll use R’s ‘hist’ function for this.</p>
 <hr />
 </div>
 <div id="comparing-onthofagus-nucleotide-diversity-and-pinpis-to-genomic-diversity-life-history-continuum" class="section level3">
 <h3>Comparing Onthofagus nucleotide diversity and piN/piS to genomic diversity ~ life history continuum</h3>
-<p>The papers we’ve read report on some very intriguing associations between species life history traits, nucleotide diversity at synonymous sites (piS), and the ratio of piN/piS (where piN is nucleotide diversity at nonsynonymous site).</p>
+<p>The papers we’ve read report on some very intriguing associations between species life history traits, nucleotide diversity at synonymous sites (piS), and the efficacy of selection measured as the ratio of piN/piS (where piN is nucleotide diversity at nonsynonymous site). Remember, higher values of PiN/piS mean selection is LESS effective at clearing deleterious mutations, probably due to small Ne.</p>
 <p>What do our beetle data have to say about this? Or more importantly: <strong><em>where do our beetles fall on the genomic diversity ~ life history continuum?</em></strong></p>
 <p>Estimating piS and piN on the entire dataset will take some time. Let’s try and set this up at the end of the day and let it run. We’ll use the piNpiS program from Gayral et al. (2013) to run this. We only need a single input file, which is a FASTA formatted sequence file that is output from <strong>reads2snps</strong></p>
 <pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> /data/project_data/beetles/snps/
