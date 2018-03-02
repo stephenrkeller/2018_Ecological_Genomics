@@ -8,7 +8,7 @@ fontsize: 18pt
 
 [Back to main page](index.html)
 
-**List of participants and their Github portfolio** 
+**List of participants and their Github portfolios** 
 
 1. [Suraj Bhattarai](https://github.com/Surajuvm/Ecological_Genomics_Notebook/blob/master/Template_online_notebook.Rmd)   
 2. [Paul Cronin](https://github.com/croninp2/Ecological_Genomics_Notebook/blob/master/Paul_Cronin_online_notebook.Rmd)   
