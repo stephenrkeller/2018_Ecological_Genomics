@@ -75,14 +75,12 @@ Now, let's try filtering out positions that are likely to be errors in the seque
 $ vcftools --vcf filename.vcf --min-alleles 2 --max-alleles 2
 ```
 
-
-####* *Reads depth per site (minDP):* Gets rid of SNPs with low #'s of reads.####
-  * Rationale: Error rates for calling genotypes depend on how many reads are covering the site; more reads leads to greater confidence that the genotype is being called correctly. This follows a multinomial distribution (because there are 3 categories of genotypes). But, if minDP is too high, we will start to lose SNPs quickly...
+####* *Genotype Quality (GQ):*  Treat genotypes below a certain (phred-scaled) likelihood threshold as 'missing' ####
+  * Rationale: Even when average read depth is low, the GQ scores provide useful information on the multinomial likelihood that the called genotype is correct. Remember, these are expressed in phred-scaled quantities (GQ = -10 x Log10(Probability of G)). Let's start by setting a GQ threshold of 10 (=90% confidence)*
 
 ```bash
-$ vcftools --vcf filename.vcf --minDP 5
+$ vcftools --vcf filename.vcf --minGQ 10
 ```
-
 
 ####* *Missing data across individuals:* Get rid of sites where  fewer than 50% of our samples have data. ####
   - Rationale: Missing data is a problem for any analysis, and population genetic statistics can behave oddly (i.e.. become biased) when a lot of individuals are missing data for a given SNP. 
@@ -106,28 +104,30 @@ $ vcftools --vcf filename.vcf --mac 2
 We can combine filters instead of applying them one at a time:
 
 ```bash
-$ vcftools --vcf filename.vcf --min-alleles 2 --max-alleles 2 -minDP 5 --max-missing 0.5 --mac 2 
+$ vcftools --vcf filename.vcf --min-alleles 2 --max-alleles 2 --minGQ 10 --max-missing 0.5 --mac 2 
 ```
 
 
-## Evaluating the influence of read depth on inferences of genetic diversity
+## Evaluating the influence of genotype uncertainty on inferences of genetic diversity
 
-VCFtools also can provide output in the form of many useful summary stats on a vcf file. We'd like to know how sensitive our inferences of diversity are to the range of read depths present among SNP sites, which directly relates to how much confidence we have that a genotype has been called correctly. 
+VCFtools also can provide output in the form of many useful summary stats on a vcf file. We'd like to know how sensitive our inferences of diversity are to the range of GQ values present among SNP sites, which directly relates to how much confidence we have that a genotype has been called correctly. 
 
-We can write a bash script with a do-loop to run vcftools iteratively for each of a range of depths. Unix will take a range of a variable and process it in a loop using curly brackets, like {4..10}
+We can write a bash script with a do-loop to run vcftools iteratively for each of a range of GQ values. Unix will take a continous range of a variable and process it in a loop using curly brackets, like {10..25}, or for a fixed set of values like 10 15 20 25.
 
-You can then bring the outputs into R to plot how diversity relates to the stringency of your filters
+Let's look at the influence of GQ filtering on the homozygosity inferred for each individual (also known as *F*).Vcftools let's us quickly calculate that using the '--het' option. Let's put that into a loop and let our bash script do the work for us.
+
+You can then bring the outputs into R to plot how diversity relates to the stringency of your filters.
 
 
 ### Comparing between SNP callers:
 
 In addition, as a comparison to the 'samtools' SNP caller, I also called SNPs using the method implemented in Gayral et al. (2014) that we read today called '**reads2snp**'. It will be interesting to compare how the to programs agree (or not).
 
-During SNP calling, **reads2snps** applied the following fairly stringent criteria when calling SNPs:
+During SNP calling, **reads2snps** applied the following criteria when calling SNPs:
 
 
-* Minimum depth to call a genotype = 10 reads
-* Minimum genotype posterior probability = 0.95
+* Minimum depth to call a genotype = 5 reads
+* Minimum genotype posterior probability = 0.90
 
 
 Any SNPs that didn't meet that criteria were flagged as **unres** (=unresolved) and set to missing data in the vcf file. Similarly, loci that show evidence of paralogy were flagged as **para**.
@@ -136,6 +136,6 @@ Any SNPs that didn't meet that criteria were flagged as **unres** (=unresolved) 
 
 	 *What about the number affected by paralogy?*
 
-We can use **vcftools** to compare the difference in the number of SNP sites detected. 
+ 
 
 

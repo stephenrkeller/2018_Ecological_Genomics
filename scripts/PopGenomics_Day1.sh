@@ -29,7 +29,8 @@ samtools  sort -@ 4 WA_PP1_F1_fixmate.bam -o WA_PP1_F1_fixmate.sorted.bam
 
 # mark and remove duplicates
 
-/data/popgen/sambamba_v0.6.0 markdup -t 4 -r -p WA_PP1_F1_fixmate.sorted.bam WA_PP1_F1_fixmate.sorted.rmdup.bam
+/data/popgen/sambamba_v0.6.0 markdup -t 4 -r -p WA_PP1_F1_fixmate.sorted.bam \
+  WA_PP1_F1_fixmate.sorted.rmdup.bam
 
 samtools rmdup WA_PP1_F1_fixmate.sorted.bam WA_PP1_F1_fixmate.sorted.rmdup.bam
 
@@ -40,19 +41,21 @@ samtools index WA_PP1_F1_fixmate.sorted.rmdup.bam
 # call SNPs with bcftools
 
 bcftools mpileup \
-  -Ou -f /data/project_data/beetles/reference/OTAU.fna /data/project_data/beetles/sam/WA_PP1_F1_fixmate.sorted.rmdup.bam \
+  -Ou -f /data/project_data/beetles/reference/OTAU.fna \
+  /data/project_data/beetles/sam/WA_PP1_F1_fixmate.sorted.rmdup.bam \
   -C 50 --min-MQ 20 --min-BQ 20 --threads 4 --skip-indels --annotate AD,DP | \
   bcftools call -Ov -mv --format-fields GQ >WA_PP1_F1.vcf
   
 # working in vcftools now
 
 # Once:
-vcftools --vcf WA_PP1_F1.vcf --min-alleles 2 --max-alleles 2 --minDP 5 --max-missing 0.5 --mac
+vcftools --vcf WA_PP1_F1.vcf --min-alleles 2 --max-alleles 2 --minDP 5 \
+  --max-missing 0.5 --mac
 
-for DP in {5..6}
+for DP in {5..15}
 do
-vcftools --vcf OTAU_2018_bcftools.vcf --min-alleles 2 --max-alleles 2 --mac 2 \
-  --minDP $DP --site-pi --out $DP
+vcftools --vcf OTAU_2018_bcftools.vcf --min-alleles 2 --max-alleles 2  \
+  --minDP $DP --max-missing 0.5 --mac 2 --window-pi 100000 --out $DP
 done
 
 touch pi.txt
@@ -63,11 +66,11 @@ done
 
 
 #compare minDP {5..25} for:
-# --site-pi
+# --window-pi 100000
 # --hardy
 # --het
-# --TajimasD 100000
-# --SNPdensity
+# --TajimaD 100000
+# --SNPdensity 100000
 
 
 # Then bring into R and make line or boxplots...
