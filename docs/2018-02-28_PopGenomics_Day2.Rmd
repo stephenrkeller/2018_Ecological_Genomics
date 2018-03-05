@@ -84,7 +84,7 @@ Estimating piS and piN on the entire dataset will take some time. Let's try and 
 
 ```bash
 $ cd /data/project_data/beetles/snps/
-[srkeller@pbio381 reads2snps]$ /data/popgen/dNdSpiNpiS_1.0 -alignment_file=OTAU_2018_reads2snps.fas -ingroup=sp
+[srkeller@pbio381 reads2snps]$ /data/popgen/dNdSpiNpiS_1.0 -alignment_file=OTAU_2018_reads2snps.fas -ingroup=sp --contigs=even (or odd) --bs_replicates=100
 ```
 
 This should be done by our next class session, and we can look at:

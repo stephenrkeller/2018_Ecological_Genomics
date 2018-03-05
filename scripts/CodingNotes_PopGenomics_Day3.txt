@@ -1,0 +1,159 @@
+P/BIO381 Coding Notes for Mar 05, 2018:
+
+
+#########  ADMIXTURE  ###############
+
+for K in {1..10}
+
+do
+
+admixture -j 4 --cv=10 ./filename.vcf.geno $K \
+| tee log${K}.out
+
+done
+
+
+grep CV log*.out >chooseK.txt
+
+
+###  Making barplots:
+
+* Download the Q files
+* Download the cols_data.txt
+
+setwd("~/github/PBIO381_srkeller_labnotebook/results")
+
+# Import the ADMIXTURE Q matrices
+K1Q <- read.table("*.1.Q")
+K2Q <- read.table("*.2.Q")
+K3Q <- read.table("*.3.Q")
+K4Q <- read.table("*.4.Q")
+K5Q <- read.table("*.5.Q")
+
+# Get the beetle meta-data
+dat <- read.table("cols_data.txt", header=T)
+  
+# Set up the plotting conditions for a multi-panel plot (3 rows, 1 column)
+par(mfrow=c(3,1))
+
+# Make the barplots for K=1-3
+barplot(t(as.matrix(K1Q)), 
+        col=rainbow(2),
+        names.arg=dat$population, 
+        cex.names=0.75, 
+        xlab="Individual", ylab="Ancestry", 
+        border=NA)
+barplot(t(as.matrix(K2Q)), 
+        col=rainbow(2),
+        names.arg=dat$population, 
+        cex.names=0.75, 
+        xlab="Individual", ylab="Ancestry", 
+        border=NA)
+barplot(t(as.matrix(K3Q)), 
+        col=rainbow(3),
+        names.arg=dat$population, 
+        cex.names=0.75, 
+        xlab="Individual", ylab="Ancestry", 
+        border=NA)
+
+
+****************   PCA  *************************
+
+* Download the filtered VCF SNP data
+
+# We'll need to install 2 packages to work with the SNP data:
+install.packages("vcfR") # reads in vcf files and proides tools for file conversion 
+install.packages("adegenet") 
+
+# ...and load the libraries
+library(vcfR)
+library(adegenet)
+
+#Read the vcf SNP data into R
+vcf1 <- read.vcfR(".recode.vcf")
+
+gl1 <- vcfR2genlight(vcf1)
+print(gl1) # Looks good! Right # of SNPs and individuals!
+
+# For info, try:
+gl1$ind.names
+gl1$loc.names[1:10]
+gl1$chromosome[1:3]
+
+# Notice there's nothing in the field that says "pop"? Let's fix that...
+meta <- read.table("cols_data.txt", header=T) # read in the metadata
+meta <- meta[order(meta$sample_ID),] # sort by Individual ID, just like the VCF file
+
+# Confirm the ID's are ordered the same in gl1 and ssw_meta:
+gl1$ind.names
+meta$Individual
+
+gl1$pop <- meta$population # assign locality info
+
+gl1$other <- as.list(meta) # assign all other meta-data to "other" slot
+
+# WE can explore the structure of our SNP data using the glPlot function
+glPlot(gl1, posi="bottomleft")
+
+# Now, let's compute the PCA on the SNP genotypes and plot it:
+pca1 <- glPca(gl1, nf=4, parallel=F) # nf = number of PC axes to retain (here, 4)
+
+pca1 # prints summary
+
+# Plot the individuals in SNP-PCA space, with locality labels:
+plot(pca1$scores[,1], pca1$scores[,2], 
+     cex=2, pch=20, col=gl1$pop, 
+     xlab="Principal Component 1", 
+     ylab="Principal Component 2", 
+     main="PCA on beetle data")
+legend("topleft", 
+       legend=unique(gl1$pop), 
+       pch=20, 
+       col=c("black", "red", "blue"))
+
+# Which SNPs load most strongly on the 1st PC axis?
+loadingplot(abs(pca1$loadings[,1]),
+            threshold=quantile(abs(pca1$loadings), 0.999))
+
+# Get their locus names
+gl1$loc.names[which(abs(pca1$loadings)>quantile(abs(pca1$loadings), 0.999))]
+
+#################   DAPC    ######################
+
+
+# Run the DAPC using population status to group samples
+pop.dapc <- dapc(gl1, pop=gl1$pop, n.pca=8, n.da=3,
+     var.loadings=T, pca.info=T, parallel=F)
+
+# Scatterplot of results
+scatter.dapc(pop.dapc, grp=gl1$pop, legend=T)
+
+# Plot the posterior assignment probabilities to each group
+compoplot(pop.dapc)
+
+# Which loci contribute the most to distinguishing populations?
+loadingplot(abs(pop.dapc$var.load), 
+            lab.jitter=1, 
+            threshold=quantile(abs(pop.dapc$var.load), probs=0.999))
+
+
+#############    Pop Helper    ###################
+
+
+If there's time, install Pophelper and dependencies:
+
+```{r}
+# install dependencies and devtools
+install.packages(c("Cairo","ggplot2","gridExtra","gtable","tidyr","devtools"),dependencies=T)
+
+# install pophelper package from GitHub
+devtools::install_github('royfrancis/pophelper')
+
+# load library for use
+library(pophelper)
+```
+
+If you have trouble with the 'Cairo' package, see the Troubleshooting link on the class github page.
+
+
+

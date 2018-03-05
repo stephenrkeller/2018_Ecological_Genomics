@@ -1,0 +1,35 @@
+---
+title: "P/BIO381 Tutorials: Population Genomics 3: Admixture and Population Structure"
+date: 'Mar 05, 2018'
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+fontsize: 18pt
+---
+
+### Goals:
+* Look for evidence of genetic population structure using ADMIXTURE 
+* Compare ADMIXTURE results to multivariate ordination techniques such as PCA (or DAPC) to detect population structure
+
+First, we need to convert vcf > .geno format:
+
+We'll use PGDSpider, a conversion tool.
+
+![PGDSpider](https://www.researchgate.net/profile/Laurent_Excoffier/publication/51823785/figure/fig1/AS:409900954996742@1474739411354/Connectivity-between-population-genetics-programs-and-formats-Red-reading-and-writing.jpg)
+
+
+Install Pophelper and dependencies:
+
+```{r}
+# install dependencies and devtools
+install.packages(c("Cairo","ggplot2","gridExtra","gtable","tidyr","devtools"),dependencies=T)
+
+# install pophelper package from GitHub
+devtools::install_github('royfrancis/pophelper')
+
+# load library for use
+library(pophelper)
+```
+
+If you have trouble with the 'Cairo' package, see the Troubleshooting link on the class github page.
+

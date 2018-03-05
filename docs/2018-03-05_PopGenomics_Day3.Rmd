@@ -1,0 +1,133 @@
+---
+title: "P/BIO381 Tutorials: Population Genomics 3: Admixture and Population Structure"
+date: 'Mar 05, 2018'
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+fontsize: 18pt
+---
+
+### Goals:
+* Look for evidence of genetic population structure using ADMIXTURE analysis
+* Compare ADMIXTURE results to multivariate ordination techniques such as PCA to detect population structure
+
+
+We'll take 2 different approaches to test if there is any population structure present in our sample: 
+
+1. The maximum likelihood ADMIXTURE program to cluster genotypes into *K*  groups, in which we'll vary *K* from 1 - 10
+
+2. Principal Component Analysis (PCA) and related analyses on the SNPs to see if they group by population
+
+   
+
+Keep in mind, both analyses are *naive* with regard to the actual sampling locality of individuals, so they provide a relatively unbiased way of determining if there are actually >1 genetically distinct groups represented in the data.
+
+
+------------------------------------------
+
+## ADMIXTURE analysis ##
+
+A common way to estimate population structure or test for mixed ancestry is to use genotypic clustering algorithms. These include the familiar program STRUCTURE, as well as many others that have sprung up like it. All share the common feature of using multi-locus genetic data to estimate:
+
+* (i) the number of clusters present, and 
+* (ii) each individual's proportion of genetic ancestry in these clusters
+
+With large population genomic datasets, STRUCTURE would take a prohibitively long time to run. Thus, analyzing thousands to millions of SNPs requires computationally efficient approaches to the clustering problem. A good option is the maximum-likelihood program ADMIXTURE by John Novembre's lab.
+
+For reference, here is the source page for information on [ADMIXTURE](https://www.genetics.ucla.edu/software/admixture/).
+
+And as with any good software, there is also a well annotated [manual](https://www.genetics.ucla.edu/software/admixture/admixture-manual.pdf) available.
+
+ADMIXTURE introduces a user-defined number of groups or clusters (known as K) and uses maximum likelihood to estimate allele frequencies in each cluster, and assign each individual ancestry (Q) to one or more of these clusters. 
+
+To run ADMIXTURE, we need to provide an input file and the requested level of K to investigate. First, we need to convert vcf > .geno format:
+
+We'll use PGDSpider, a conversion tool.
+
+![PGDSpider](https://www.researchgate.net/profile/Laurent_Excoffier/publication/51823785/figure/fig1/AS:409900954996742@1474739411354/Connectivity-between-population-genetics-programs-and-formats-Red-reading-and-writing.jpg)
+
+The program [PGDSpider](http://www.cmpg.unibe.ch/software/PGDSpider/) is able to convert vcf files to .geno format, which ADMIXTURE can read. This requires 4 files:
+
+* the input data file in vcf format
+* a text file with sample IDs and the population designations
+* a settings file (.spid) that tells PGDSpider how to process the data
+* a bash script that runs the program with all the above settings specified
+
+**Lucky for you, I've already done this!**  But, here are the files for future reference, in case you need to do this yourself down the road. Make sure they're all in the same directory along with your vcf file before running.
+
+```bash
+/data/project_data/beetles/metadata/beetles.pop
+/data/project_data/scripts/beetles.spid
+/data/project_data/scripts/vcf2geno.sh
+```
+
+
+Use **cp** to copy the needed files to your *~/myscripts* folder in your home directory on the server, then **cd** there and confirm the files are present.
+
+From within your home directory, open vim to create a bash script for running ADMIXTURE at each level of K from 1 to 10. Let's code the script together:
+
+```bash
+#!/bin/bash
+```
+
+When you're ready to go, exit vim to return to the command line, and execute the script.
+
+```
+$ bash ADMIX.sh
+```
+
+The cross-validation procedure in ADMIXTURE breaks the samples into *n* equally sized chunks. It then masks each chunk in turn, trains the model to estimate the allele frequencies and ancestry assignments on the unmasked data, and then attempts to predict the genotype values for the masked individuals. 
+
+**If the model is good (and there's true structure in the data), then the best value of K is the one that will *minimize* the cross-validation (CV) error. This is shown in the example plot below (not our data)**
+
+![ADMIXTURE CV](https://www.researchgate.net/profile/Jason_Hodgson/publication/263579532/figure/download/fig3/AS:392426666643462@1470573216485/Figure-S1-Plot-of-ADMIXTURE-cross-validation-error-from-K2-through-K6-We-chose-K3-to.png)The CV values for our runs are stored in the output file "chooseK.txt"
+
+After your run is finished, cat the contents of this file to your screen:
+
+```bash
+$ cat chooseK.txt
+```
+
+* What level of K is the CV the lowest? 
+* What does this say about the presence of genetic structure in our data?
+
+
+
+We can check our estimates of individual ancestry and make admixture barplots in R.
+
+* Download the output Q files that ADMIXTURE generated to your laptop: Let's get the files corresponding to K=1-5 (1Q, 2Q, 3Q, 4Q, 5Q)
+* Download the beetle metadata from `/data/project_data/beetles/metadata/cols_data.txt`
+* Simple plots can be made in R:
+
+
+----------------------------------------
+
+## PCA on SNP genotypes:##
+
+Principal Components Analysis (PCA) is a powerful multivariate technique to reduce the dimensionality of large SNP datasets into a few synthetic axes (PC's) that describe the major structure present in the data. We'll do this in **R** using the *adegent* package ([adegenet manual available here](https://cran.r-project.org/web/packages/adegenet/adegenet.pdf)).
+
+
+
+* Transfer your filtered vcf file from the server to your local machine. You know the drill…use Fetch, WinScp, or scp at the command-line.
+
+* Also transfer the metadata "cols_data.txt".
+
+```
+/data/project_data/beetles/metadata/cols_data.txt
+```
+
+
+
+* Open **R**, and load the following packages we'll need for running PCA on our SNP data:
+
+```R
+install.packages("vcfR") # reads in vcf files and proides tools for file conversion 
+install.packages("adegenet") # pop-genetics package with some handy routines, including PCA and other multivariate methods (DAPC)
+```
+
+If you have *a-priori* defined groups, another way to analyze SNP-PCA information is with a discriminant analysis. This is known as **Discriminant Analysis of Principal Components (DAPC)**, and is a very useful means of finding the SNPs that *most* differentiate your samples for a variable of interest. 
+
+[Read more on this method here](https://bmcgenet.biomedcentral.com/articles/10.1186/1471-2156-11-94). 
+
+For our data, we might choose to perform DAPC based on *a-priori* population status designations...
+
