@@ -10,7 +10,7 @@ fontsize: 18pt
 ### Goals:
 * Learn to calculate SNP allele frequencies and diversity metrics with vcftools
 * Learn to subset the vcf file for interesting individuals (or for specific chromosomes or SNP loci)
-* Set up an analysis to calculate nucleotide diversity at syn and nonsyn sites (Pi[s] and Pi[n], respectively)
+* Calculate nucleotide diversity for each contig
 
 ## Getting summary stats for downstream analysis and plotting in R##
 
@@ -72,24 +72,15 @@ Let's bring in the results we got from VCFtools to R. The Site Frequency Spectru
 
 ------------------------------------------
 
-###Comparing Onthofagus nucleotide diversity and piN/piS to genomic diversity ~ life history continuum###
+###Estimating Onthofagus nucleotide diversity
 
-The papers we've read report on some very intriguing associations between species life history traits, nucleotide diversity at synonymous sites (piS), and the efficacy of selection measured as the ratio of piN/piS (where piN is nucleotide diversity at nonsynonymous site). Remember, higher values of PiN/piS mean selection is LESS effective at clearing deleterious mutations, probably due to small Ne.
+The papers we've read report on some very intriguing associations between species life history traits and nucleotide diversity (pi). Recall that pi is proportional to Ne, through the equation:
 
+*pi = 4 Ne u*
 
-What do our beetle data have to say about this? Or more importantly: ***where do our beetles fall on the genomic diversity ~ life history continuum?***
+where 'u' is the per-site mutation rate, generally ~10^-9
 
+We can use vcftools to calculate pi for each site, then aggregate the data per contig in R to get mean values.
 
-Estimating piS and piN on the entire dataset will take some time. Let's try and set this up at the end of the day and let it run. We'll use the piNpiS program from Gayral et al. (2013) to run this. We only need a single input file, which is a FASTA formatted sequence file that is output from **reads2snps**
+Since pi includes both polymorphic and monomorphic sites in the genome, we'll need to use a filtering strategy on our vcf file that includes the non-variable sites
 
-```bash
-$ cd /data/project_data/beetles/snps/
-[srkeller@pbio381 reads2snps]$ /data/popgen/dNdSpiNpiS_1.0 -alignment_file=OTAU_2018_reads2snps.fas -ingroup=sp --contigs=even (or odd) --bs_replicates=100
-```
-
-This should be done by our next class session, and we can look at:
-
-* Detailed results file with nucleotide diversity calculated for each gene
-
-
-* Overall summary of results, including mean (and confidence intervals) of diversity when averaged across all expressed genes 
