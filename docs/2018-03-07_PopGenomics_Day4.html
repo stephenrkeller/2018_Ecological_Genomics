@@ -12,10 +12,30 @@
 
 
 
-<title>Tutorials and Scripts</title>
+<title>P/BIO381 Tutorials: Population Genomics 4: Admixture and Population Structure Continued</title>
 
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
 
 
 
@@ -29,31 +49,81 @@
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name">Tutorials and Scripts</h1>
+<h1 class="title toc-ignore project-name">P/BIO381 Tutorials: Population Genomics 4: Admixture and Population Structure Continued</h1>
+<h4 class="date project-date">Mar 07, 2018</h4>
 </section>
 
 
 
 <section class="main-content">
-<p><a href="index.html">Back to main page</a></p>
-<p><strong>List of Tutorials</strong></p>
-<ol style="list-style-type: decimal">
-<li><p>2018-01-24: <a href="2018-01-24_Command_Line_Unix.html">Command-line UNIX tutorial</a></p></li>
-<li><p>2018-01-29: <a href="2018-01-29_RNA-seq_Day1.html">RNA-seq tutorial - Day 1</a></p></li>
-<li><p>2018-01-31: <a href="2018-01-31_RNA-seq_Day2.html">RNA-seq tutorial - Day 2</a></p></li>
-<li><p>2018-02-05: <a href="2018-02-05_RNA-seq_Day3.html">RNA-seq tutorial - Day 3</a></p></li>
-<li><p>2018-02-07: <a href="2018-02-07_RNA-seq_Day4.html">RNA-seq tutorial - Day 4</a></p></li>
-<li><p>2018-02-12: <a href="2018-02-12_RNA-seq_Day5.html">RNA-seq tutorial - Day 5</a></p></li>
-<li><p>2018-02-14: <a href="2018-02-14_RNA-seq_Day6.html">RNA-seq tutorial - Day 6</a></p></li>
-<li><p>2018-02-21: <a href="2018-02-21_RNA-seq_Day7.html">RNA-seq tutorial - Day 7</a></p></li>
-<li><p>2018-02-26: <a href="2018-02-26_PopGenomics_Day1.html">PopGenomics tutorial - Day 1</a></p></li>
-<li><p>2018-02-28: <a href="2018-02-28_PopGenomics_Day2.html">PopGenomics tutorial - Day 2</a></p></li>
-<li><p>2018-03-05: <a href="2018-03-05_PopGenomics_Day3.html">PopGenomics tutorial - Day 3</a></p></li>
-<li><p>2018-03-07: <a href="2018-03-07_PopGenomics_Day4.html">PopGenomics tutorial - Day 4</a></p></li>
-</ol>
-<div id="troubleshooting" class="section level3">
-<h3>Troubleshooting</h3>
-<p>If you’re on a Mac and havin trouble with R loading packages that depend on X11, you may not have it installed on your system (recent Mac’s don’t have this loaded at the factory). <a href="https://stackoverflow.com/questions/38952427/include-cairo-r-on-a-mac">Follow this link</a> for a thread on how to install X11.</p>
+<div id="goals" class="section level3">
+<h3>Goals:</h3>
+<ul>
+<li>Plot our ancestry assignments from ADMIXTURE analysis for different levels of K</li>
+<li>Compare ADMIXTURE results to multivariate ordination techniques such as PCA to detect population structure</li>
+</ul>
+<p>We can check our estimates of individual ancestry and make admixture barplots in R.</p>
+<ul>
+<li>Download the output Q files that ADMIXTURE generated to your laptop: Let’s get the files corresponding to K=2-5 (2Q, 3Q, 4Q, 5Q)</li>
+<li>Also download the beetle.pop metadata for plot labeling</li>
+</ul>
+</div>
+<div id="ancestry-plots-can-be-made-using-the-r-package-pophelper.-nice-vignette-here." class="section level3">
+<h3>Ancestry plots can be made using the R package <strong>‘pophelper’</strong>. <a href="http://royfrancis.github.io/pophelper/">Nice vignette here</a>.</h3>
+<p>Install pophelper package from GitHub: <code>install.packages(c(&quot;Cairo&quot;,&quot;ggplot2&quot;,&quot;gridExtra&quot;,&quot;gtable&quot;,&quot;tidyr&quot;,&quot;devtools&quot;),dependencies=T)</code> <code>devtools::install_github('royfrancis/pophelper')</code></p>
+<p>Pophelper makes nice looking figures with MANY customizable settings. So many that I’m not going to drag you through the muck coding this line-by-line in class. Here is a script that gets us started, and that you can modify to suit your needs:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pophelper)
+
+<span class="kw">setwd</span>(<span class="st">&quot;/Users/srkeller/github/PBIO381_srkeller_labnotebook_2018/myresults/&quot;</span>)
+
+admixfiles=<span class="kw">list.files</span>(<span class="dt">path=</span>(<span class="st">&quot;ADMIXTURE/&quot;</span>),<span class="dt">full.names=</span>T)
+admixlist=<span class="kw">readQ</span>(<span class="dt">files=</span>admixfiles,<span class="dt">filetype=</span><span class="st">&quot;basic&quot;</span>)
+
+<span class="co"># metadata: sample id and pop from beetle.pop file</span>
+metadata=<span class="kw">read.table</span>(<span class="st">&quot;beetle.pop&quot;</span>,<span class="dt">header=</span>F)
+
+<span class="co"># format metadata to a data frame and ind variables as chars. for plotting</span>
+metadata2=<span class="kw">data.frame</span>(<span class="dt">sampleid=</span>metadata[,<span class="dv">1</span>], <span class="dt">population=</span>metadata[,<span class="dv">2</span>])
+
+metadata2$sampleid=<span class="kw">as.character</span>(metadata2$sampleid)
+metadata2$population=<span class="kw">as.character</span>(metadata2$population)
+
+<span class="co"># add in the sample id to the different Q files for plotting</span>
+if(<span class="kw">length</span>(<span class="kw">unique</span>(<span class="kw">sapply</span>(admixlist,nrow)))==<span class="dv">1</span>)
+  admixlist &lt;-<span class="st"> </span><span class="kw">lapply</span>(admixlist,<span class="st">&quot;rownames&lt;-&quot;</span>,metadata2$sampleid)
+
+<span class="kw">head</span>(admixlist[[<span class="dv">3</span>]])</code></pre>
+<p>Make ancestry plots grouped by population</p>
+<pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">plotQ</span>(admixlist[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)],
+           <span class="dt">returnplot=</span>T,<span class="dt">exportplot=</span>T,<span class="dt">quiet=</span>T,<span class="dt">basesize=</span><span class="dv">11</span>, <span class="dt">imgoutput=</span><span class="st">&quot;join&quot;</span>, 
+           <span class="dt">showyaxis=</span>T, <span class="dt">showticks=</span>T, <span class="dt">panelspacer=</span><span class="fl">0.4</span>, <span class="dt">useindlab=</span>F, <span class="dt">showindlab=</span>F, 
+           <span class="dt">grplab=</span>metadata2[<span class="dv">2</span>], <span class="dt">grplabsize=</span><span class="dv">4</span>, <span class="dt">linesize=</span><span class="dv">1</span>, <span class="dt">barsize=</span><span class="dv">1</span>, <span class="dt">pointsize=</span><span class="dv">3</span>, 
+           <span class="dt">panelratio=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">1</span>), <span class="dt">divsize =</span> <span class="fl">0.75</span>, <span class="dt">pointcol=</span><span class="st">&quot;white&quot;</span>, <span class="dt">showtitle=</span>T, 
+           <span class="dt">titlelab=</span><span class="st">&quot;ADMIXTURE analysis on O. tauri, SNPs thinned to 1 per kb&quot;</span>, 
+           <span class="dt">splab=</span><span class="kw">c</span>(<span class="st">&quot;K=2&quot;</span>,<span class="st">&quot;K=3&quot;</span>,<span class="st">&quot;K=4&quot;</span>,<span class="st">&quot;K=5&quot;</span>), <span class="dt">outputfilename=</span><span class="st">&quot;ADMIXTURE_Otauri&quot;</span>,
+           <span class="dt">imgtype=</span><span class="st">&quot;pdf&quot;</span>,<span class="dt">height=</span><span class="dv">3</span>,<span class="dt">width=</span><span class="dv">25</span>)
+
+<span class="kw">plot</span>(p$plot[[<span class="dv">1</span>]])</code></pre>
+<hr />
+</div>
+<div id="pca-on-snp-genotypes" class="section level2">
+<h2>PCA on SNP genotypes:</h2>
+<p>Principal Components Analysis (PCA) is a powerful multivariate technique to reduce the dimensionality of large SNP datasets into a few synthetic axes (PC’s) that describe the major structure present in the data. We’ll do this in <strong>R</strong> using the <em>adegent</em> package (<a href="https://cran.r-project.org/web/packages/adegenet/adegenet.pdf">adegenet manual available here</a>).</p>
+<ul>
+<li>Transfer your filtered (but not thinned) vcf file from the server to your local machine. * Also transfer the metadata “cols_data.txt”.</li>
+</ul>
+<pre><code>/data/project_data/beetles/metadata/cols_data.txt</code></pre>
+<ul>
+<li>Open <strong>R</strong>, and load the following packages we’ll need for running PCA on our SNP data:</li>
+</ul>
+<p><code>install.packages(&quot;vcfR&quot;)</code> <code>install.packages(&quot;adegenet&quot;)</code></p>
+<p>We’ll code the PCA script together in class…</p>
+</div>
+<div id="dapc" class="section level2">
+<h2>DAPC</h2>
+<p>If you have <em>a-priori</em> defined groups, another way to analyze SNP-PCA information is with a discriminant analysis. This is known as <strong>Discriminant Analysis of Principal Components (DAPC)</strong>, and is a very useful means of finding the SNPs that <em>most</em> differentiate your samples for a variable of interest.</p>
+<p><a href="https://bmcgenet.biomedcentral.com/articles/10.1186/1471-2156-11-94">Read more on this method here</a>.</p>
+<p>We may skip doing DAPC in class, but it’s good for you to know about this analysis type for the future when you’re wanting to test for population structure among groups you have some a-priori knowledge about.</p>
 </div>
 </section>
 
