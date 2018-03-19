@@ -34,6 +34,8 @@ fontsize: 18pt
 
 12. 2018-03-07: [PopGenomics tutorial - Day 4](2018-03-07_PopGenomics_Day4.html)
 
+13. 2018-03-14: [PopGenomics tutorial - Day 5](2018-03-14_PopGenomics_Day5.html)
+
 
 
 ### Troubleshooting   
